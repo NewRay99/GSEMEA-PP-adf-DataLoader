@@ -1,0 +1,501 @@
+{
+	"name": "pl_spobm_parquet",
+	"properties": {
+		"activities": [
+			{
+				"name": "LKP_LogStart",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+						"storedProcedureParameters": {
+							"Action": {
+								"type": "String",
+								"value": "Start"
+							},
+							"DataFactoryName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().DataFactory",
+									"type": "Expression"
+								}
+							},
+							"Description": {
+								"type": "String",
+								"value": {
+									"value": "@concat('Copy from sharepoint: ', pipeline().parameters.spo_url, ' to adlsg2 dir: ', pipeline().parameters.file_path_directory)",
+									"type": "Expression"
+								}
+							},
+							"LogID": {
+								"type": "Int32",
+								"value": null
+							},
+							"PipelineId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							"PipelineName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().Pipeline",
+									"type": "Expression"
+								}
+							},
+							"TriggerId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerId",
+									"type": "Expression"
+								}
+							},
+							"TriggerName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerName",
+									"type": "Expression"
+								}
+							},
+							"TriggerTime": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerTime",
+									"type": "Expression"
+								}
+							},
+							"TriggerType": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerType",
+									"type": "Expression"
+								}
+							},
+							"ParentLogID": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.ParentLogID",
+									"type": "Expression"
+								}
+							},
+							"Status": {
+								"type": "String",
+								"value": "In Progress"
+							},
+							"ExecutionInstanceId": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.ExecutionInstanceId",
+									"type": "Expression"
+								}
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_config",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LKP_LogSuccess",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "FE_SPOList",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+						"storedProcedureParameters": {
+							"Action": {
+								"type": "String",
+								"value": "Stop"
+							},
+							"DataFactoryName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().DataFactory",
+									"type": "Expression"
+								}
+							},
+							"Description": {
+								"type": "String",
+								"value": {
+									"value": "@concat('Master Execution', string(pipeline().parameters.ExecutionInstanceId))",
+									"type": "Expression"
+								}
+							},
+							"LogID": {
+								"type": "Int32",
+								"value": {
+									"value": "@activity('LKP_LogStart').output.firstRow.LogID",
+									"type": "Expression"
+								}
+							},
+							"PipelineId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							"PipelineName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().Pipeline",
+									"type": "Expression"
+								}
+							},
+							"TriggerId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerId",
+									"type": "Expression"
+								}
+							},
+							"TriggerName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerName",
+									"type": "Expression"
+								}
+							},
+							"TriggerTime": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerTime",
+									"type": "Expression"
+								}
+							},
+							"TriggerType": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerType",
+									"type": "Expression"
+								}
+							},
+							"ParentLogID": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.ParentLogID",
+									"type": "Expression"
+								}
+							},
+							"Status": {
+								"type": "String",
+								"value": "Success"
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_config",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LKP_LogFailure",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "FE_SPOList",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+						"storedProcedureParameters": {
+							"Action": {
+								"type": "String",
+								"value": "Stop"
+							},
+							"DataFactoryName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().DataFactory",
+									"type": "Expression"
+								}
+							},
+							"Description": {
+								"type": "String",
+								"value": {
+									"value": "@concat('Master Execution ', string(pipeline().parameters.ExecutionInstanceId),' | FAILURE')",
+									"type": "Expression"
+								}
+							},
+							"LogID": {
+								"type": "Int32",
+								"value": {
+									"value": "@activity('LKP_LogStart').output.firstRow.LogID",
+									"type": "Expression"
+								}
+							},
+							"PipelineId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							"PipelineName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().Pipeline",
+									"type": "Expression"
+								}
+							},
+							"TriggerId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerId",
+									"type": "Expression"
+								}
+							},
+							"TriggerName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerName",
+									"type": "Expression"
+								}
+							},
+							"TriggerTime": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerTime",
+									"type": "Expression"
+								}
+							},
+							"TriggerType": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerType",
+									"type": "Expression"
+								}
+							},
+							"ParentLogID": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.ParentLogID",
+									"type": "Expression"
+								}
+							},
+							"Status": {
+								"type": "String",
+								"value": "FAILURE"
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_config",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LKP_GetSPCollections",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "LKP_LogStart",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select a.ParameterName, a.ParameterValue, b.PathDate_YYYYMMDD\nfrom [execution].[vExecutionInstanceParamaters] a\nLEFT OUTER JOIN  [execution].[vPivotvExecutionInstanceParamaters] b on a.ExecutionInstanceId=b.ExecutionInstanceId\nwhere a.ExecutionInstanceId = @{pipeline().parameters.ExecutionInstanceId} \nand a.ParameterName = 'sponlineCollection'\n\n\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "FE_SPOList",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LKP_GetSPCollections",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LKP_GetSPCollections').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy Data",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									}
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"dataIntegrationUnits": 32
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_spo_list",
+									"type": "DatasetReference",
+									"parameters": {
+										"spo_list": {
+											"value": "@item().ParameterValue",
+											"type": "Expression"
+										},
+										"spo_appId": {
+											"value": "@pipeline().parameters.spo_appId",
+											"type": "Expression"
+										},
+										"spo_url": {
+											"value": "@pipeline().parameters.spo_url",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_adlsg2_parquet",
+									"type": "DatasetReference",
+									"parameters": {
+										"ds_file_path_file": {
+											"value": "@concat(item().ParameterValue, '.parquet')",
+											"type": "Expression"
+										},
+										"ds_file_path_directory": {
+											"value": "@concat('spo/bm/',item().ParameterValue,'/',item().PathDate_YYYYMMDD,'/')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"ExecutionInstanceId": {
+				"type": "int",
+				"defaultValue": 2
+			},
+			"file_path_directory": {
+				"type": "string",
+				"defaultValue": "spo/bm"
+			},
+			"ParentLogId": {
+				"type": "string",
+				"defaultValue": "3"
+			},
+			"spo_appId": {
+				"type": "string",
+				"defaultValue": "0faecc31-203e-4418-9d87-f7f124b82f42"
+			},
+			"spo_url": {
+				"type": "string",
+				"defaultValue": "https://kbrcorpuk.sharepoint.com/sites/gs-cap/BM/"
+			}
+		},
+		"variables": {
+			"skipStep": {
+				"type": "String",
+				"defaultValue": "0"
+			}
+		},
+		"folder": {
+			"name": "Copy"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-10-02T10:36:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

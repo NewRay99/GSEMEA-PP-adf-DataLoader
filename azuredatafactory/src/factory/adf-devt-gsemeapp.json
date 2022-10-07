@@ -1,0 +1,17 @@
+{
+	"name": "adf-devt-gsemeapp",
+	"properties": {
+		"globalParameters": {
+			"subscriptionId": {
+				"type": "string",
+				"value": "abc596af-81dc-4cac-87d1-d89cd6c6e10e"
+			}
+		}
+	},
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "156080aa-648e-4d3e-8f88-fd3b2eba88d1",
+		"tenantId": "9e52d672-a711-4a65-ad96-286a3703d96e"
+	}
+}

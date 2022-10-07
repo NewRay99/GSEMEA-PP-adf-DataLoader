@@ -1,0 +1,13 @@
+{
+	"name": "ds_config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_mi_adb_config",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

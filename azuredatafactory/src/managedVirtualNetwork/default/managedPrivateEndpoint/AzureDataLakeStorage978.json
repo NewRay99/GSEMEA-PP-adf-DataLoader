@@ -1,0 +1,10 @@
+{
+	"name": "AzureDataLakeStorage978",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.Storage/storageAccounts/storagedevtgsemeapp",
+		"groupId": "dfs",
+		"fqdns": [
+			"storagedevtgsemeapp.dfs.core.windows.net"
+		]
+	}
+}
