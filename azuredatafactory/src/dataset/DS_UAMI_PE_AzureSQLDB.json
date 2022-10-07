@@ -1,0 +1,51 @@
+{
+	"name": "DS_UAMI_PE_AzureSQLDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_UAMI_PE_SQLDB_AzureSQL",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"LS_Server": {
+					"value": "@dataset().DS_Server",
+					"type": "Expression"
+				},
+				"LS_Database": {
+					"value": "@dataset().DS_Database",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"DS_Schema": {
+				"type": "string",
+				"defaultValue": "di_stage"
+			},
+			"DS_Table": {
+				"type": "string",
+				"defaultValue": "t_dataportal"
+			},
+			"DS_Server": {
+				"type": "string",
+				"defaultValue": "s161d01-sql-odp.database.windows.net"
+			},
+			"DS_Database": {
+				"type": "string",
+				"defaultValue": "PlatformDB"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().DS_Schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().DS_Table",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

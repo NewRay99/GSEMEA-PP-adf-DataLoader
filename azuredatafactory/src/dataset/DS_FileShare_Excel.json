@@ -1,0 +1,71 @@
+{
+	"name": "DS_FileShare_Excel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_FileShare",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"LS_Host": {
+					"value": "@dataset().DS_Host",
+					"type": "Expression"
+				},
+				"LS_KVS_UserName": {
+					"value": "@dataset().DS_KVS_Username",
+					"type": "Expression"
+				},
+				"LS_KVS_Password": {
+					"value": "@dataset().DS_KVS_Password",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"DS_Host": {
+				"type": "string"
+			},
+			"DS_KVS_Username": {
+				"type": "string"
+			},
+			"DS_KVS_Password": {
+				"type": "string"
+			},
+			"DS_File_Path_Directory": {
+				"type": "string"
+			},
+			"DS_File_Path_File": {
+				"type": "string"
+			},
+			"DS_Delimiter": {
+				"type": "string"
+			},
+			"DS_CompressionType": {
+				"type": "string"
+			},
+			"DS_WorkSheetName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": {
+				"value": "@dataset().DS_WorkSheetName",
+				"type": "Expression"
+			},
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": {
+					"value": "@dataset().DS_File_Path_File",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().DS_File_Path_Directory",
+					"type": "Expression"
+				}
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

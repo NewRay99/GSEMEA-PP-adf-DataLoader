@@ -1,0 +1,100 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "s161d01-adf-odpwip"
+		},
+		"LS_ADLSG2_accountKey": {
+			"value": ""
+		},
+		"LS_DBR_accessToken": {
+			"value": ""
+		},
+		"LS_SQLDB_ConfigDB_connectionString": {
+			"value": ""
+		},
+		"LS_UAMI_PE_SQLDB_AzureSQL_connectionString": {
+			"value": ""
+		},
+		"LS_ADLSG2_properties_typeProperties_url": {
+			"value": "https://s161d01adlsodp.dfs.core.windows.net"
+		},
+		"LS_BLOB_properties_typeProperties_serviceEndpoint": {
+			"value": "@{linkedService().LS_Service_Endpoint}"
+		},
+		"LS_BLOB_properties_typeProperties_tenant": {
+			"value": "8e336469-1c6b-4b0b-a06c-748a7c586f7c"
+		},
+		"LS_BLOB_properties_typeProperties_servicePrincipalId": {
+			"value": "@{linkedService().LS_SPN_ID}"
+		},
+		"LS_FILE_properties_typeProperties_connectionString_secretName": {
+			"value": "@linkedService().secretName"
+		},
+		"LS_FileShare_properties_typeProperties_host": {
+			"value": "@{linkedService().LS_Host}"
+		},
+		"LS_FileShare_properties_typeProperties_userId": {
+			"value": "@{linkedService().LS_KVS_UserName}"
+		},
+		"LS_HTTP_properties_typeProperties_url": {
+			"value": "@{linkedService().Base_URL}"
+		},
+		"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
+			"value": "https://s161d01-kv-ops.vault.azure.net/"
+		},
+		"LS_REST_API_properties_typeProperties_url": {
+			"value": "@{linkedService().Base_URL}"
+		},
+		"LS_SQLDB_AzureSQL_properties_typeProperties_connectionString_secretName": {
+			"value": "@{linkedService().LS_KVS_ConnectionString}"
+		},
+		"LS_SQLDB_AzureSQL_properties_typeProperties_servicePrincipalId": {
+			"value": "@{linkedService().LS_SPN_ID}"
+		},
+		"LS_SQLDB_AzureSQL_properties_typeProperties_tenant": {
+			"value": "9c7d9dd3-840c-4b3f-818e-552865082e16"
+		},
+		"LS_SQL_SQLServer_properties_typeProperties_connectionString_secretName": {
+			"value": "@linkedService().Key_Vault_Secret_ConnectionString"
+		},
+		"LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
+			"value": "https://s161d01adlsodp.dfs.core.windows.net"
+		},
+		"s161d01-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
+			"value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/providers/Microsoft.Storage/storageAccounts/s161d01adlsodp"
+		},
+		"s161d01-pep-adf-wip-odp-adlsodp_properties_groupId": {
+			"value": "dfs"
+		},
+		"s161d01-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
+			"value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/providers/Microsoft.Sql/servers/s161d01-sql-odp"
+		},
+		"s161d01-pep-adfwip-sql-odp_properties_groupId": {
+			"value": "sqlServer"
+		},
+		"s161d01-pep-adfwip-sql-odp_properties_fqdns": {
+			"value": [
+				"s161d01-sql-odp.database.windows.net"
+			]
+		},
+		"s161d01-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
+			"value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-SLD/providers/Microsoft.Sql/servers/s161d01-sql-sld"
+		},
+		"s161d01-pep-adfwip-sql-sld_properties_groupId": {
+			"value": "sqlServer"
+		},
+		"s161d01-pep-adfwip-sql-sld_properties_fqdns": {
+			"value": [
+				"s161d01-sql-sld.database.windows.net"
+			]
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

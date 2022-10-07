@@ -1,0 +1,89 @@
+trigger:
+  branches:
+    include:
+    - feature/*
+    - release/*
+    - develop
+  paths:
+    include:
+    - azuredatafactory
+
+
+parameters:
+- name: AzAddManageIdToAccessGroup
+  displayName: Assign Manage Id To Read Access Group
+  type: boolean
+  default: false
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: vg-odin-core
+  - name: location
+    value: 'West Europe'
+  - name: subscriptionIdDev
+    value: '81703de1-ec12-47e5-91f8-ef521199196e'
+  - name: resourceGroupNameDev
+    value: 's161d01-rg-odp'
+  - name: dataFactoryNameDev
+    value: 's161d01-adf-platform'
+  - name: DataFactoryResourceId
+    value: /subscriptions/$(subscriptionIdDev)/resourceGroups/$(resourceGroupNameDev)/providers/Microsoft.DataFactory/factories/$(dataFactoryNameDev)
+  - name: projectName
+    value: S161-ESFA-Adopt
+    
+
+stages:
+  - stage: build
+    jobs:
+    - template: azure-build.yml
+      parameters:
+        Stage: build
+        subscriptionIdDev: $(subscriptionIdDev)
+        azureSubscriptionSPN: $(devTestAzureSubscriptionSPN)
+        resourceGroupName: $(devResourceGroupName)
+        #parameterFile: $(devResourceGroupName)
+        environment: Dev
+        workingDir: $(Build.Repository.LocalPath)/azuredatafactory/src
+        DataFactoryResourceId: $(DataFactoryResourceId)
+        dataFactoryName: $(dataFactoryNameDev)
+        location: $(location) 
+  - stage: DevTest
+    displayName: devtest
+    dependsOn: build
+    variables:
+      UserAssignedMI: 's161d02-uami-adf-platform'
+    jobs:
+    - template: azure-deploy.yml
+      parameters:
+        Stage: DevTest
+        Environment: development #$(devTestTAGEnvironment)
+        azureSubscriptionSPN: $(devTestAzureSubscriptionSPN)
+        location: $(location)
+        resourceGroupName: $(devTestODPCoreRGName)
+        TAGEnvironment: $(devTestTAGEnvironment)  
+        dataFactoryName: $(devTestdataFactoryName) 
+        AzAddManageIdToAccessGroup: ${{parameters.AzAddManageIdToAccessGroup}}
+        UserAssignedMI: $(UserAssignedMI) 
+        projectName: $(projectName)
+        keyVaultName: $(devTestDSCoreKeyVaultName)
+  - stage: Test
+    displayName: test
+    dependsOn: DevTest
+    variables:
+      UserAssignedMI: 's161t01-uami-adf-platform'
+    jobs:
+    - template: azure-deploy.yml
+      parameters:
+        Stage: Test
+        Environment: test #$(TestTAGEnvironment)
+        azureSubscriptionSPN: $(TestAzureSubscriptionSPN)
+        location: $(location)
+        resourceGroupName: $(TestODPCoreRGName)
+        TAGEnvironment: $(TestTAGEnvironment) 
+        dataFactoryName: $(testdataFactoryName) 
+        AzAddManageIdToAccessGroup: ${{parameters.AzAddManageIdToAccessGroup}}
+        UserAssignedMI: $(UserAssignedMI) 
+        projectName: $(projectName) 
+        keyVaultName: $(testDSCoreKeyVaultName)

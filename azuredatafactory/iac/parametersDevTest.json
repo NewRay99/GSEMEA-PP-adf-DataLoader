@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourcePrefix": {
+      "value": "s161d02"
+    },
+    "CoreRG": {
+      "value": "s161d02-core"
+    },
+    "vNet": {
+      "value": "s161d02-core-vn-01"
+    },
+    "subNet": {
+      "value": "s161d02-core-sn-03"
+    },
+    "coreDSRGName": {
+      "value": "rg-ops-core"
+    },
+    "coreDSKVName": {
+      "value": "s161d02-kv-ops"
+    },
+    "dataFactoryName": {
+      "value": "s161d02-adf-platform"
+    }
+  }
+}

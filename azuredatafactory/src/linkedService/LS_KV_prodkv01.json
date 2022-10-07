@@ -1,0 +1,12 @@
+{
+	"name": "LS_KV_prodkv01",
+	"properties": {
+		"description": "Linked Service for the Data Services Key Vault",
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://s161d01-core-kv-01.vault.azure.net/"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

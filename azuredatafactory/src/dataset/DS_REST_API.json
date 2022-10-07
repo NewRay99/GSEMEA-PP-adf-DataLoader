@@ -1,0 +1,33 @@
+{
+	"name": "DS_REST_API",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_REST_API",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"LS_Base_URL": {
+					"value": "@dataset().DS_Base_URL",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"DS_Base_URL": {
+				"type": "string"
+			},
+			"DS_Relative_URL": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@dataset().DS_Relative_URL",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

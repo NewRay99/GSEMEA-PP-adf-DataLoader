@@ -1,0 +1,44 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "s161t01-adf-platform"
+        },
+        "LS_ADLSG2_properties_typeProperties_url":{
+            "value": "https://s161t01adlsodp.dfs.core.windows.net"
+        },
+        "LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
+            "value": "https://s161t01adlsodp.dfs.core.windows.net"
+        },
+        "LS_Cred_UAMI_ADF_properties_typeProperties_resourceId": {
+            "value": "/subscriptions/{subscriptionId}/resourcegroups/s161t01-rg-odp-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/s161t01-uami-adf-platform"
+        },
+        "LS_SQLDB_ConfigDB_connectionString": {
+            "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=s161t01-sql-odp.database.windows.net;Initial Catalog=PlatformDB"
+        },
+        "LS_UAMI_PE_SQLDB_AzureSQL_connectionString": {
+        "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=@{linkedService().LS_Server};Initial Catalog=@{linkedService().LS_Database}"
+        },
+        "LS_KV_prodkv01_properties_typeProperties_baseUrl": {
+        "value": "https://s161t01-kv-ops.vault.azure.net/"
+        },
+        "dataFactory_properties_globalParameters_subscriptionId_value": {
+            "value": "{subscriptionId}"
+        },
+        "dataFactory_identity_userAssignedIdentities": {
+            "value": {
+                "/subscriptions/{subscriptionId}/resourcegroups/s161t01-rg-ODP-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/s161t01-uami-adf-platform": {}
+            }   
+        },
+        "pep-adf-adls_properties_privateLinkResourceId": {
+            "value": "/subscriptions/{subscriptionId}/resourceGroups/s161t01-rg-ODP-core/providers/Microsoft.Storage/storageAccounts/s161t01adlsodp"
+        },
+        "pep-adf-sql-sld_properties_privateLinkResourceId": {
+            "value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-SLD/providers/Microsoft.Sql/servers/s161d01-sql-SLD"
+        },
+        "pep-adf-sql_properties_privateLinkResourceId": {
+            "value": "/subscriptions/{subscriptionId}/resourceGroups/s161t01-rg-ODP-core/providers/Microsoft.Sql/servers/s161t01-sql-odp"
+        }
+    }
+}

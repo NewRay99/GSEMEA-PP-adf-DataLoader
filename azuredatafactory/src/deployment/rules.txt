@@ -1,0 +1,5 @@
++pipeline.*
+trigger.*
+linkedService.*
+dataflow.*
+integrationRuntime.*

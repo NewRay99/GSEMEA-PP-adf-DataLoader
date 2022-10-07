@@ -1,0 +1,151 @@
+{
+	"name": "PL_Azure SQL-BLOB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "LKP_Config",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_AzureSQLDB",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_Schema": {
+								"value": "@activity('LKP_Config').output.firstRow.Source_SchemaName",
+								"type": "Expression"
+							},
+							"DS_Table": {
+								"value": "@activity('LKP_Config').output.firstRow.Source_TableName",
+								"type": "Expression"
+							},
+							"DS_KVS_ConnectionString": {
+								"value": "@activity('LKP_Config').output.firstRow.Source_Key_Vault_Secret_ConnectionString",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_BLOB_CSV",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_Service_Endpoint": {
+								"value": "@activity('LKP_Config').output.firstRow.Sink_Service_Endpoint",
+								"type": "Expression"
+							},
+							"DS_File_Path_Container": {
+								"value": "@activity('LKP_Config').output.firstRow.Sink_FilePath_Container",
+								"type": "Expression"
+							},
+							"DS_File_Path_Directory": {
+								"value": "@activity('LKP_Config').output.firstRow.Sink_FilePath_Directory",
+								"type": "Expression"
+							},
+							"DS_File_Path_File": {
+								"value": "@activity('LKP_Config').output.firstRow.Sink_FilePath_File",
+								"type": "Expression"
+							},
+							"DS_File_Delimiter": {
+								"value": "@activity('LKP_Config').output.firstRow.Sink_Delimiter",
+								"type": "Expression"
+							},
+							"DS_File_CompressionType": {
+								"value": "@activity('LKP_Config').output.firstRow.Sink_CompressionType",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "LKP_Config",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT *\nFROM [appconfig].[vPipeline]\nWHERE JobStepID= @{pipeline().parameters.JobStepID}\nAND ExecutionInstanceId = @{pipeline().parameters.ExecutionInstanceId}",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CONFIG",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"JobStepID": {
+				"type": "string"
+			},
+			"ParentLogID": {
+				"type": "int"
+			},
+			"ExecutionInstanceId": {
+				"type": "int"
+			}
+		},
+		"folder": {
+			"name": "Copy"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-02-25T15:41:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

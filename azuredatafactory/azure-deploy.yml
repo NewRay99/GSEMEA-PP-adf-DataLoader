@@ -1,0 +1,168 @@
+parameters:
+- name: Stage
+- name: Environment
+- name: azureSubscriptionSPN
+- name: location
+- name: resourceGroupName
+- name: TAGEnvironment
+- name: dataFactoryName
+- name: AzAddManageIdToAccessGroup
+- name: UserAssignedMI
+- name: projectName
+- name: keyVaultName
+jobs:
+  - deployment: 'Deploy${{ parameters.Stage }}'
+    displayName: 'Deploy ${{ parameters.Stage }}'
+    environment: ${{parameters.Environment}}
+    pool:
+      vmImage: 'windows-latest'
+    strategy:
+      runOnce:
+        preDeploy:
+          steps: 
+            - task: AzureCLI@2
+              displayName: 'Create Resource Group'
+              inputs:
+                azureSubscription: ${{parameters.azureSubscriptionSPN}}
+                scriptType: 'pscore'  
+                scriptLocation: 'inlineScript'  
+                inlineScript: |
+                  #az group delete --name ${{parameters.resourceGroupName}} --yes
+                  #az network private-dns zone delete -g ${{parameters.resourceGroupName}} -n privatelink.datafactory.azure.net --yes
+                  Write-Host "Creating resource group ${{parameters.resourceGroupName}} in location '$(location)'";
+                  az group create --name ${{parameters.resourceGroupName}} --location '$(location)' --tags "Portfolio=Education and Skills Funding Agency" "Service Line=Data Science (CEDD)" "Service=Business Intelligence" "Product=ESFA Adopt Programme" "Environment=${{parameters.TAGEnvironment}}" "Service Offering=ESFA Adopt Programme"
+            - task: AzurePowerShell@5
+              name: GetreDeploySubscriptionId
+              displayName: 'Get SubscriptionId for ${{parameters.Stage}}'
+              inputs:
+                azureSubscription: ${{parameters.azureSubscriptionSPN}}
+                scriptType: 'InlineScript'
+                inline: |
+                  $Context = Get-AzContext
+                  $AzureOpsServicePrincipal = Get-AzADServicePrincipal -ApplicationId $Context.Account.Id
+                  $ObjectId = $AzureOpsServicePrincipal.Id
+                  echo "##vso[task.setvariable variable=SPNObjectId;isOutput=true]$ObjectId"
+                  $GetTenantId = $Context.Tenant.Id
+                  echo "##vso[task.setvariable variable=tenantId;isOutput=true]$GetTenantId"
+                  $GetSubscriptionId = $Context.subscription.Id
+                  echo "##vso[task.setvariable variable=subscriptionId;isOutput=true]$GetSubscriptionId"
+                azurePowerShellVersion: latestVersion
+            - task: DownloadPipelineArtifact@2 #downloading artifacts created in build stage
+              inputs:
+                source: 'current'
+                path: '$(Pipeline.Workspace)'
+            - task: AzureResourceManagerTemplateDeployment@3
+              displayName: Creating ADF Infrastructure by IaC
+              inputs:
+                deploymentScope: 'Resource Group'
+                azureResourceManagerConnection: '${{parameters.azureSubscriptionSPN}}'
+                subscriptionId: '$(GetreDeploySubscriptionId.subscriptionId)'
+                action: 'Create Or Update Resource Group'
+                resourceGroupName: ${{parameters.resourceGroupName}}
+                location: $(location)
+                templateLocation: 'Linked artifact'
+                csmFile: '$(Pipeline.Workspace)\datafactory\infrastructure\main.json'
+                overrideParameters: -environment ${{parameters.Stage}}
+                                    -subscriptionId $(GetreDeploySubscriptionId.subscriptionId)
+                                    -projectName ${{parameters.projectName}}
+                deploymentMode: 'Incremental'
+                deploymentOutputs: 'ArmOutputs'
+            - task: AzurePowerShell@5
+              displayName: 'Add User assigned MI to Data Access Group'
+              inputs:
+                azureSubscription: '${{parameters.azureSubscriptionSPN}}'
+                ScriptType: 'InlineScript'
+                Inline: |
+                  if(${{parameters.AzAddManageIdToAccessGroup}})
+                  {
+                    $objectid = (Get-AzADGroup -DisplayName "$(AZGroupAccessGroup)").id
+                    $miobjectid = (Get-AzADServicePrincipal -DisplayName "${{parameters.UserAssignedMI}}").id
+                    Add-AzADGroupMember -TargetGroupObjectId $objectid -MemberObjectId $miobjectid -ErrorAction 'silentlycontinue'
+                  }
+                azurePowerShellVersion: 'LatestVersion'
+        deploy:
+          steps:
+          
+            # Get KeyVault params
+            - task: AzureKeyVault@1 
+              inputs:
+                azureSubscription: ${{ parameters.AzureSubscriptionSPN }}
+                keyVaultName: ${{ parameters.keyVaultName }}
+                secretsFilter: '*'
+                
+              ###################################
+              # Show environment and treeview
+              ###################################
+            - powershell: |
+                  Write-Output "This is the ${{ parameters.Environment }} environment"
+                  tree "$(Pipeline.Workspace)" /F
+              displayName: '2 Show environment and treeview Pipeline_Workspace'
+            - task: AzurePowerShell@5
+              displayName: 'Get SubscriptionId for ${{parameters.Stage}}'
+              name: GetSubscriptionId
+              inputs:
+                azureSubscription: ${{parameters.azureSubscriptionSPN}}
+                scriptType: 'InlineScript'
+                inline: |
+                  $Context = Get-AzContext
+                  $AzureOpsServicePrincipal = Get-AzADServicePrincipal -ApplicationId $Context.Account.Id
+                  $ObjectId = $AzureOpsServicePrincipal.Id
+                  echo "##vso[task.setvariable variable=SPNObjectId;isOutput=true]$ObjectId"
+                  $GetTenantId = $Context.Tenant.Id
+                  echo "##vso[task.setvariable variable=tenantId;isOutput=true]$GetTenantId"
+                  $GetSubscriptionId = $Context.subscription.Id
+                  echo "##vso[task.setvariable variable=subscriptionId;isOutput=true]$GetSubscriptionId"
+                azurePowerShellVersion: latestVersion
+            ###################################
+            # Stop triggers
+            ###################################
+            - task: AzurePowerShell@5
+              displayName: 'Stop triggers'
+              inputs:
+                azureSubscription: '${{parameters.azureSubscriptionSPN}}'
+                pwsh: true
+                azurePowerShellVersion: LatestVersion
+                scriptType: filePath
+                scriptPath: '$(Pipeline.Workspace)/datafactory/application/PrePostDeploymentScript.ps1'
+                scriptArguments: >
+                  -armTemplate $(Pipeline.Workspace)/datafactory/application/ARMTemplateForFactory.json
+                  -ResourceGroupName ${{parameters.resourceGroupName}}
+                  -DataFactoryName ${{parameters.dataFactoryName}}
+                  -predeployment $true
+                  -deleteDeployment $false            
+            ###################################
+            # Deploy ADF Artifact
+            ###################################
+            - task: AzureResourceManagerTemplateDeployment@3
+              displayName: 'Deploying ADF Artificats'
+              inputs:
+                deploymentScope: 'Resource Group'
+                azureResourceManagerConnection: '${{parameters.azureSubscriptionSPN}}'
+                subscriptionId: '$(GetSubscriptionId.subscriptionId)'
+                action: 'Create Or Update Resource Group'
+                resourceGroupName: ${{parameters.resourceGroupName}}
+                location: $(location)
+                templateLocation: 'Linked artifact'
+                csmFile: '$(Pipeline.Workspace)/datafactory/application/ARMTemplateForFactory.json'
+                csmParametersFile: '$(Pipeline.Workspace)/datafactory/application/arm-parameters-${{lower(parameters.Stage)}}.json'
+                overrideParameters: '-factoryName ${{parameters.dataFactoryName}}
+                                   -LS_DBR_properties_typeProperties_existingClusterId $(scrt-databricks-de-hive-ClusterId)
+                                   -LS_Cred_UAMI_ADF_properties_typeProperties_resourceId "/subscriptions/$(GetSubscriptionId.subscriptionId)/resourcegroups/${{parameters.resourceGroupName}}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/${{parameters.UserAssignedMI}}"'
+                deploymentMode: 'Incremental'
+            ###################################
+            # Start triggers and cleanup
+            ###################################
+            - task: AzurePowerShell@5
+              displayName: 'Start triggers and cleanup'
+              inputs:
+                azureSubscription: '${{parameters.azureSubscriptionSPN}}'
+                pwsh: true
+                azurePowerShellVersion: LatestVersion
+                scriptType: filePath
+                scriptPath: '$(Pipeline.Workspace)/datafactory/application/PrePostDeploymentScript.ps1'
+                scriptArguments:
+                  -armTemplate $(Pipeline.Workspace)/datafactory/application/ARMTemplateForFactory.json
+                  -ResourceGroupName ${{parameters.resourceGroupName}}
+                  -DataFactoryName ${{parameters.dataFactoryName}}
+                  -predeployment $false
+                  -deleteDeployment $true 

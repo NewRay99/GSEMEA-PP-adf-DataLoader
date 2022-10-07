@@ -1,0 +1,31 @@
+{
+	"name": "LS_SQL_SQLServer",
+	"properties": {
+		"parameters": {
+			"LS_KVS_ConnectionString": {
+				"type": "string",
+				"defaultValue": "scrt-sqldb-DEV-OFQDS-STATS"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KV_prodkv01",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": {
+					"value": "@linkedService().LS_KVS_ConnectionString",
+					"type": "Expression"
+				}
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

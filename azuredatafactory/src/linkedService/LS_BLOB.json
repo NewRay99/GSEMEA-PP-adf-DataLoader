@@ -1,0 +1,29 @@
+{
+	"name": "LS_BLOB",
+	"properties": {
+		"description": "Linked service to all Azure Blob storage.",
+		"parameters": {
+			"LS_Service_Endpoint": {
+				"type": "string",
+				"defaultValue": "https://ofqdsdevdiblob01.blob.core.windows.net/"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"serviceEndpoint": "@{linkedService().LS_Service_Endpoint}",
+			"tenant": "8e336469-1c6b-4b0b-a06c-748a7c586f7c",
+			"servicePrincipalId": "a0240ded-0286-44a5-90fc-76154784ef7a",
+			"servicePrincipalKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KV_prodkv01",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "scrt-spn-DataImporter-Id"
+			},
+			"accountKind": "StorageV2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

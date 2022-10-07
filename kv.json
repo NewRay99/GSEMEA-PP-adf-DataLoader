@@ -1,0 +1,110 @@
+{
+    "scrt-datalake-container":{
+    "type": "storageAccountDirectory"
+    ,
+    "Env":{
+        "dev":"datalake",
+        "devtest":"datalake",
+        "test": "datalake",
+        "prod": "datalake"
+    }
+},
+
+    "scrt-spn-DataImporter-Id":{
+        "type": "storageAccountSPNAccountId"
+    ,
+    "Env":{
+        "dev":"3f9cfa7e-d3ff-4327-8435-bf3330877adc",
+        "devtest":"a0240ded-0286-44a5-90fc-76154784ef7a",
+        "test": "",
+        "prod": ""
+    }
+},
+
+    "scrt-spn-DataImporter-key":{
+        "type": "storageAccountSPNSecret"
+    ,
+    "Env":{
+        "dev":"nDl7Q~iiTowFnpowOUBM4sXswmKkZfNgsFVUk",
+        "devtest":"GkO8Q~wazTYmmFhNt-Lk.~32ajSgz2AD.Xu2Mdlc",
+        "test": "",
+        "prod": ""
+    }
+},
+
+    "scrt-datalake-name":{
+        "type": "storageAccountName"
+    ,
+    "Env":{
+        "dev":"s161d01adlsodp",
+        "devtest":"s161d02adlsodp",
+        "test": "s161t01adlsodp",
+        "prod": ""
+    }
+},
+
+    "scrt-tenantid":{
+        "type": "tenantId"
+    ,
+    "Env":{
+        "dev":"9c7d9dd3-840c-4b3f-818e-552865082e16",
+        "devtest":"9c7d9dd3-840c-4b3f-818e-552865082e16",
+        "test": "",
+        "prod": ""
+    }
+},
+
+    "KeyEncryptionKeyURL":{
+        "type": "KeyEncryptionKey"
+    ,
+    "Env":{
+        "dev":"https://s161d01-core-kv-01.vault.azure.net:443/keys/KeyEncryptionKey/6a7af75a112f404d868675f5d4a5c329",
+        "devtest":"https://s161d02-kv-OPS.vault.azure.net:443/keys/KeyEncryptionKey/29c53071d11c4678ba86ef201e6ce3fc",
+        "test": "",
+        "prod": ""
+    }
+},
+
+    "scrt-sql-config":{
+        "type": "SQL Server"
+    ,
+    "Env":{
+        "dev":"s161d01-sql-odp.database.windows.net",
+        "devtest":"s161d02-sql-odp.database.windows.net",
+        "test": "s161t01-sql-odp.database.windows.net",
+        "prod": ""
+    }
+},
+
+    "scrt-sql-config-password":{
+        "type": "Password"
+    ,
+    "Env":{
+        "dev":"fuzzyb34rDFEds",
+        "devtest":"fuzzyb34rDFEds",
+        "test": "",
+        "prod": ""
+    }
+},
+
+    "scrt-sql-config-username":{
+        "type": "Username"
+    ,
+    "Env":{
+        "dev":"sqladmin",
+        "devtest":"sqladmin",
+        "test": "sqladmin",
+        "prod": "sqladmin"
+    }
+},
+
+    "scrt-sqldb-config":{
+        "type": "Azure Sql DB"
+    ,
+    "Env":{
+        "dev":"PlatformDB",
+        "devtest":"PlatformDB",
+        "test": "PlatformDB",
+        "prod": "PlatformDB"
+    }
+}}

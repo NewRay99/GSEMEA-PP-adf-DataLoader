@@ -1,0 +1,29 @@
+{
+	"name": "LS_UAMI_PE_SQLDB_AzureSQL",
+	"properties": {
+		"parameters": {
+			"LS_Server": {
+				"type": "string",
+				"defaultValue": "s161d01-sql-sld.database.windows.net"
+			},
+			"LS_Database": {
+				"type": "string",
+				"defaultValue": "ILR2122DataStore"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=@{linkedService().LS_Server};Initial Catalog=@{linkedService().LS_Database}",
+			"credential": {
+				"referenceName": "LS_Cred_UAMI_ADF",
+				"type": "CredentialReference"
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

@@ -1,0 +1,70 @@
+{
+	"name": "DS_UAMI_PE_ADLSG2_Parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_UAMI_PE_ADLSG2",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"LS_Service_Endpoint": {
+					"value": "@dataset().DS_Service_Endpoint",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"DS_File_Path_Container": {
+				"type": "string"
+			},
+			"DS_File_Path_Directory": {
+				"type": "string"
+			},
+			"DS_File_Path_File": {
+				"type": "string"
+			},
+			"DS_Service_Endpoint": {
+				"type": "string"
+			},
+			"DS_File_CompressionType": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().DS_File_Path_File",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().DS_File_Path_Directory",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().DS_File_Path_Container",
+					"type": "Expression"
+				}
+			},
+			"compressionCodec": {
+				"value": "@dataset().DS_File_CompressionType",
+				"type": "Expression"
+			}
+		},
+		"schema": [
+			{
+				"name": "UKPRN",
+				"type": "INT32"
+			},
+			{
+				"name": "LearnRefNumber",
+				"type": "UTF8"
+			},
+			{
+				"name": "ULN",
+				"type": "INT64"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

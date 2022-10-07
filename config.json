@@ -1,0 +1,57 @@
+{
+    "databricks_host": {
+        "dev": "https://adb-2578510321069655.15.azuredatabricks.net",
+        "devtest": "https://adb-2578510321069655.15.azuredatabricks.net",
+        "test": "https://adb-1900824939878229.9.azuredatabricks.net",
+        "prod": "https://adb-xxxx.yyyy.azuredatabricks.net"
+    },
+    "databricks_orgid": {
+        "dev": "2578510321069655",
+        "devtest": "2578510321069655",
+        "test": "1900824939878229",
+        "prod": "yy"
+    },
+    "databricks_cluster_id": {
+        "dev": ["0523-141934-dw7xkk"],
+        "devtest": ["0523-141934-dw7xkk"],
+        "test": ["11-21-xy"],
+        "prod": ["12-22-yy"]
+    },
+    "databricks_pat": {
+        "dev": "dapi3779df82c0d9a3853dd44408978f1fc6-2",
+        "devtest": "dapi3779df82c0d9a3853dd44408978f1fc6-2",
+        "test": "yyy",
+        "prod": "zzz"
+    },
+    "databricks_region":{
+        "dev": "westeurope",
+        "devtest": "westeurope",
+        "test": "yyy",
+        "prod": "zzz"
+    },
+    "databricks_port": {"dev": "15001","devtest": "15001", "test": "15001", "prod": "15001"},
+    "dbfs_package_dir": {
+        "dev": "dbfs:/FileStore/jars/",
+        "devtest": "dbfs:/FileStore/jars/",
+        "test": "dbfs:/FileStore/jars/",
+        "prod": "dbfs:/FileStore/jars/"
+    },
+    "dbfs_init_script_dir": {
+        "dev": "dbfs:/databricks/scripts/",
+        "devtest": "dbfs:/databricks/scripts/",
+        "test": "dbfs:/databricks/scripts/",
+        "prod": "dbfs:/databricks/scripts/"
+    },
+    "keyvault_name": {
+        "dev": "s161d02-kv-OPS",
+        "devtest": "s161d02-kv-OPS",
+        "test": "s161t01-core-kv-01",
+        "prod": "zzz"
+    },
+    "keyvaultId": {
+        "dev": "s161d02-kv-OPS",
+        "devtest": "s161d02-kv-OPS",
+        "test": "s161t01-core-kv-01",
+        "prod": "zzz"
+    }
+}

@@ -1,0 +1,7 @@
+type,name,path,value
+linkedService,LS_KV_prodkv01,typeProperties.baseUrl,"https://s161d01-kv-ops.vault.azure.net/"
+linkedService,LS_SQLDB_ConfigDB,typeProperties.connectionString.secretName,"scrt-sqldb-devconfigdb"
+linkedService,LS_SQLDB_ConfigDB,typeProperties.servicePrincipalId,"b3ff6d16-a433-470e-913b-27527796c421"
+linkedService,LS_SQLDB_ConfigDB,typeProperties.servicePrincipalKey.secretName,"scrt-spn-DataImporter-UserPW"
+linkedService,LS_SQLDB_ConfigDB,typeProperties.tenant,"177ceb31-48ce-4896-a732-f24052cfa680"
+linkedService,DS_AzureSQLDB,properties.linkedServiceName.parameters.LS_SPN_ID,"b3ff6d16-a433-470e-913b-27527796c421"

@@ -1,0 +1,19 @@
+{
+	"name": "s161d01-adf-platform",
+	"location": "westeurope",
+	"identity": {
+		"type": "UserAssigned",
+		"userAssignedIdentities": {
+			"/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourcegroups/s161d01-rg-ODP/providers/Microsoft.ManagedIdentity/userAssignedIdentities/s161d01-uami-adf-platform": {
+			}
+		}
+	},
+	"properties": {
+		"globalParameters": {
+			"subscriptionId": {
+				"type": "string",
+				"value": "81703de1-ec12-47e5-91f8-ef521199196e"
+			}
+		}
+	}
+}

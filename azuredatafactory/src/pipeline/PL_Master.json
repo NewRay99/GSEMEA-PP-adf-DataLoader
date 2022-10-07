@@ -1,0 +1,1072 @@
+{
+	"name": "PL_Master",
+	"properties": {
+		"activities": [
+			{
+				"name": "LKP_GetJobs",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "LKP_LogStart_Master",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT DISTINCT JobGroupID, JobGroup, JobID, JobName, ParallelRunSteps, JobOnFailure, JobOrderNumber \nFROM [appconfig].[vPipeline] \nWHERE JobGroup = '@{pipeline().parameters.JobGroupName}' \nORDER BY JobOrderNumber",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CONFIG",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "VAR_PipelineRunId",
+				"description": "Used to cancel the Pipeline",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "PipelineRunId",
+					"value": {
+						"value": "@concat('https://management.azure.com/subscriptions/',pipeline().globalParameters.subscriptionId,'/resourceGroups/s161d01-rg-odp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?api-version=2018-06-01')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "FOR_Jobs",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LKP_ResetState",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LKP_GetJobs').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "LKP_LogStart",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+									"storedProcedureParameters": {
+										"Action": {
+											"type": "String",
+											"value": "Start"
+										},
+										"DataFactoryName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().DataFactory",
+												"type": "Expression"
+											}
+										},
+										"Description": {
+											"type": "String",
+											"value": {
+												"value": "@concat('JobGroupID: ', item().JobGroupID, ' | JobGroup: ', item().JobGroup, ' | JobID: ', item().JobID, ' | JobName: ', item().JobName)",
+												"type": "Expression"
+											}
+										},
+										"LogID": {
+											"type": "Int32",
+											"value": null
+										},
+										"PipelineId": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().RunId",
+												"type": "Expression"
+											}
+										},
+										"PipelineName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().Pipeline",
+												"type": "Expression"
+											}
+										},
+										"TriggerId": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerId",
+												"type": "Expression"
+											}
+										},
+										"TriggerName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerName",
+												"type": "Expression"
+											}
+										},
+										"TriggerTime": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerTime",
+												"type": "Expression"
+											}
+										},
+										"TriggerType": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerType",
+												"type": "Expression"
+											}
+										},
+										"ParentLogID": {
+											"type": "Int32",
+											"value": {
+												"value": "@pipeline().parameters.ParentLogID",
+												"type": "Expression"
+											}
+										},
+										"Status": {
+											"type": "String",
+											"value": "In Progress"
+										},
+										"ExecutionInstanceId": {
+											"type": "Int32",
+											"value": {
+												"value": "@pipeline().parameters.ExecutionInstanceId",
+												"type": "Expression"
+											}
+										}
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DS_CONFIG",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "IF_Terminate",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "LKP_LogFailure",
+									"dependencyConditions": [
+										"Completed"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@contains(createArray(0,2),item().JobOnFailure)",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Break Out Job Master",
+										"type": "WebActivity",
+										"dependsOn": [
+											{
+												"activity": "LKP_LogFailure_Parent",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"url": {
+												"value": "@variables('PipelineRunId')",
+												"type": "Expression"
+											},
+											"connectVia": {
+												"referenceName": "AutoResolveIntegrationRuntime",
+												"type": "IntegrationRuntimeReference"
+											},
+											"method": "POST",
+											"body": "{“message”:”Cancelling the pipeline”}",
+											"authentication": {
+												"resource": "https://management.azure.com",
+												"credential": {
+													"referenceName": "LS_Cred_UAMI_ADF",
+													"type": "CredentialReference"
+												}
+											}
+										}
+									},
+									{
+										"name": "LKP_LogFailure_Parent",
+										"type": "Lookup",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "AzureSqlSource",
+												"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+												"storedProcedureParameters": {
+													"Action": {
+														"type": "String",
+														"value": "Stop"
+													},
+													"DataFactoryName": {
+														"type": "String",
+														"value": {
+															"value": "@pipeline().DataFactory",
+															"type": "Expression"
+														}
+													},
+													"Description": {
+														"type": "String",
+														"value": {
+															"value": "@concat('JobGroupID: ', item().JobGroupID, ' | JobGroup: ', item().JobGroup, ' | JobID: ', item().JobID, ' | JobName: ', item().JobName, ' | FAILURE: ', activity('IF_Parallel').error.message)",
+															"type": "Expression"
+														}
+													},
+													"LogID": {
+														"type": "Int32",
+														"value": {
+															"value": "@activity('LKP_LogStart_Master').output.firstRow.LogID",
+															"type": "Expression"
+														}
+													},
+													"PipelineId": {
+														"type": "String",
+														"value": {
+															"value": "@pipeline().RunId",
+															"type": "Expression"
+														}
+													},
+													"PipelineName": {
+														"type": "String",
+														"value": {
+															"value": "@pipeline().Pipeline",
+															"type": "Expression"
+														}
+													},
+													"TriggerId": {
+														"type": "String",
+														"value": {
+															"value": "@pipeline().TriggerId",
+															"type": "Expression"
+														}
+													},
+													"TriggerName": {
+														"type": "String",
+														"value": {
+															"value": "@pipeline().TriggerName",
+															"type": "Expression"
+														}
+													},
+													"TriggerTime": {
+														"type": "String",
+														"value": {
+															"value": "@pipeline().TriggerTime",
+															"type": "Expression"
+														}
+													},
+													"TriggerType": {
+														"type": "String",
+														"value": {
+															"value": "@pipeline().TriggerType",
+															"type": "Expression"
+														}
+													},
+													"ParentLogID": {
+														"type": "Int32",
+														"value": null
+													},
+													"Status": {
+														"type": "String",
+														"value": "Failure"
+													},
+													"ExecutionInstanceId": {
+														"type": "Int32",
+														"value": {
+															"value": "@pipeline().parameters.ExecutionInstanceId",
+															"type": "Expression"
+														}
+													}
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"dataset": {
+												"referenceName": "DS_CONFIG",
+												"type": "DatasetReference"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "IF_Parallel",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "LKP_LogStart",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().ParallelRunSteps,true)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "EXPL_JobStepSeq",
+										"type": "ExecutePipeline",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "PL_JobStepSeq",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true,
+											"parameters": {
+												"JobID": {
+													"value": "@item().JobId",
+													"type": "Expression"
+												},
+												"ParentLogID": {
+													"value": "@activity('LKP_LogStart').output.firstRow.LogID",
+													"type": "Expression"
+												},
+												"ExecutionInstanceId": {
+													"value": "@pipeline().parameters.ExecutionInstanceId",
+													"type": "Expression"
+												}
+											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "EXPL_JobStepParallel",
+										"type": "ExecutePipeline",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "PL_JobStepParallel",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true,
+											"parameters": {
+												"JobID": {
+													"value": "@item().JobId",
+													"type": "Expression"
+												},
+												"ParentLogID": {
+													"value": "@activity('LKP_LogStart').output.firstRow.LogID",
+													"type": "Expression"
+												},
+												"ExecutionInstanceId": {
+													"value": "@pipeline().parameters.ExecutionInstanceId",
+													"type": "Expression"
+												}
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "LKP_LogSuccess",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "IF_Parallel",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+									"storedProcedureParameters": {
+										"Action": {
+											"type": "String",
+											"value": "Stop"
+										},
+										"DataFactoryName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().DataFactory",
+												"type": "Expression"
+											}
+										},
+										"Description": {
+											"type": "String",
+											"value": {
+												"value": "@concat('JobGroupID: ', item().JobGroupID, ' | JobGroup: ', item().JobGroup, ' | JobID: ', item().JobID, ' | JobName: ', item().JobName)",
+												"type": "Expression"
+											}
+										},
+										"LogID": {
+											"type": "Int32",
+											"value": {
+												"value": "@activity('LKP_LogStart').output.firstRow.LogID",
+												"type": "Expression"
+											}
+										},
+										"PipelineId": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().RunId",
+												"type": "Expression"
+											}
+										},
+										"PipelineName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().Pipeline",
+												"type": "Expression"
+											}
+										},
+										"TriggerId": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerId",
+												"type": "Expression"
+											}
+										},
+										"TriggerName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerName",
+												"type": "Expression"
+											}
+										},
+										"TriggerTime": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerTime",
+												"type": "Expression"
+											}
+										},
+										"TriggerType": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerType",
+												"type": "Expression"
+											}
+										},
+										"ParentLogID": {
+											"type": "Int32",
+											"value": null
+										},
+										"Status": {
+											"type": "String",
+											"value": "Success"
+										}
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DS_CONFIG",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "LKP_LogFailure",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "IF_Parallel",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+									"storedProcedureParameters": {
+										"Action": {
+											"type": "String",
+											"value": "Stop"
+										},
+										"DataFactoryName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().DataFactory",
+												"type": "Expression"
+											}
+										},
+										"Description": {
+											"type": "String",
+											"value": {
+												"value": "@concat('JobGroupID: ', item().JobGroupID, ' | JobGroup: ', item().JobGroup, ' | JobID: ', item().JobID, ' | JobName: ', item().JobName, ' | FAILURE: ', activity('IF_Parallel').error.message)",
+												"type": "Expression"
+											}
+										},
+										"LogID": {
+											"type": "Int32",
+											"value": {
+												"value": "@activity('LKP_LogStart').output.firstRow.LogID",
+												"type": "Expression"
+											}
+										},
+										"PipelineId": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().RunId",
+												"type": "Expression"
+											}
+										},
+										"PipelineName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().Pipeline",
+												"type": "Expression"
+											}
+										},
+										"TriggerId": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerId",
+												"type": "Expression"
+											}
+										},
+										"TriggerName": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerName",
+												"type": "Expression"
+											}
+										},
+										"TriggerTime": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerTime",
+												"type": "Expression"
+											}
+										},
+										"TriggerType": {
+											"type": "String",
+											"value": {
+												"value": "@pipeline().TriggerType",
+												"type": "Expression"
+											}
+										},
+										"ParentLogID": {
+											"type": "Int32",
+											"value": null
+										},
+										"Status": {
+											"type": "String",
+											"value": "Failure"
+										}
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DS_CONFIG",
+									"type": "DatasetReference"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "LKP_ResetState",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "LKP_GetJobs",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[appconfig].[sResetStateJobSteps]",
+						"storedProcedureParameters": {
+							"JobGroupId": {
+								"type": "Int32",
+								"value": {
+									"value": "@activity('LKP_GetJobs').output.value[0].JobGroupID",
+									"type": "Expression"
+								}
+							},
+							"JobStepID": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.JobStepID",
+									"type": "Expression"
+								}
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CONFIG",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "LKP_LogStart_Master",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "VAR_PipelineRunId",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+						"storedProcedureParameters": {
+							"Action": {
+								"type": "String",
+								"value": "Start"
+							},
+							"DataFactoryName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().DataFactory",
+									"type": "Expression"
+								}
+							},
+							"Description": {
+								"type": "String",
+								"value": {
+									"value": "@concat('Data Importer (Master) - JobGroup: ', pipeline().parameters.JobGroupName)",
+									"type": "Expression"
+								}
+							},
+							"LogID": {
+								"type": "Int32",
+								"value": null
+							},
+							"PipelineId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							"PipelineName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().Pipeline",
+									"type": "Expression"
+								}
+							},
+							"TriggerId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerId",
+									"type": "Expression"
+								}
+							},
+							"TriggerName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerName",
+									"type": "Expression"
+								}
+							},
+							"TriggerTime": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerTime",
+									"type": "Expression"
+								}
+							},
+							"TriggerType": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerType",
+									"type": "Expression"
+								}
+							},
+							"ParentLogID": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.ParentLogID",
+									"type": "Expression"
+								}
+							},
+							"Status": {
+								"type": "String",
+								"value": "In Progress"
+							},
+							"ExecutionInstanceId": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.ExecutionInstanceId",
+									"type": "Expression"
+								}
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CONFIG",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LKP_LogSuccess_Master",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "FOR_Jobs",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+						"storedProcedureParameters": {
+							"Action": {
+								"type": "String",
+								"value": "Stop"
+							},
+							"DataFactoryName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().DataFactory",
+									"type": "Expression"
+								}
+							},
+							"Description": {
+								"type": "String",
+								"value": null
+							},
+							"LogID": {
+								"type": "Int32",
+								"value": {
+									"value": "@activity('LKP_LogStart_Master').output.firstRow.LogID",
+									"type": "Expression"
+								}
+							},
+							"PipelineId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							"PipelineName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().Pipeline",
+									"type": "Expression"
+								}
+							},
+							"TriggerId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerId",
+									"type": "Expression"
+								}
+							},
+							"TriggerName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerName",
+									"type": "Expression"
+								}
+							},
+							"TriggerTime": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerTime",
+									"type": "Expression"
+								}
+							},
+							"TriggerType": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerType",
+									"type": "Expression"
+								}
+							},
+							"ParentLogID": {
+								"type": "Int32",
+								"value": null
+							},
+							"Status": {
+								"type": "String",
+								"value": "Success"
+							},
+							"ExecutionInstanceId": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.ExecutionInstanceId",
+									"type": "Expression"
+								}
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CONFIG",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LKP_LogFailure_Master",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "FOR_Jobs",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[logger].[sLogEvent]",
+						"storedProcedureParameters": {
+							"Action": {
+								"type": "String",
+								"value": "Stop"
+							},
+							"DataFactoryName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().DataFactory",
+									"type": "Expression"
+								}
+							},
+							"Description": {
+								"type": "String",
+								"value": null
+							},
+							"LogID": {
+								"type": "Int32",
+								"value": {
+									"value": "@activity('LKP_LogStart_Master').output.firstRow.LogID",
+									"type": "Expression"
+								}
+							},
+							"PipelineId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							},
+							"PipelineName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().Pipeline",
+									"type": "Expression"
+								}
+							},
+							"TriggerId": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerId",
+									"type": "Expression"
+								}
+							},
+							"TriggerName": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerName",
+									"type": "Expression"
+								}
+							},
+							"TriggerTime": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerTime",
+									"type": "Expression"
+								}
+							},
+							"TriggerType": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().TriggerType",
+									"type": "Expression"
+								}
+							},
+							"ParentLogID": {
+								"type": "Int32",
+								"value": null
+							},
+							"Status": {
+								"type": "String",
+								"value": "Failure"
+							},
+							"ExecutionInstanceId": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.ExecutionInstanceId",
+									"type": "Expression"
+								}
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CONFIG",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"JobGroupName": {
+				"type": "string",
+				"defaultValue": "PDQ Daily (Development)"
+			},
+			"ExecutionInstanceId": {
+				"type": "int",
+				"defaultValue": 15
+			},
+			"ParentLogID": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"JobStepID": {
+				"type": "int",
+				"defaultValue": 0
+			}
+		},
+		"variables": {
+			"PipelineRunId": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Orchestration"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-02-25T15:41:45Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

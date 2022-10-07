@@ -1,0 +1,295 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "s161d01-adf-odpwip"
+		},
+		"LS_ADLSG2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_ADLSG2'"
+		},
+		"LS_DBR_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'LS_DBR'"
+		},
+		"LS_SQLDB_ConfigDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_SQLDB_ConfigDB'"
+		},
+		"LS_UAMI_PE_SQLDB_AzureSQL_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_UAMI_PE_SQLDB_AzureSQL'"
+		},
+		"LS_ADLSG2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://s161d01adlsodp.dfs.core.windows.net"
+		},
+		"LS_BLOB_properties_typeProperties_serviceEndpoint": {
+			"type": "string",
+			"defaultValue": "@{linkedService().LS_Service_Endpoint}"
+		},
+		"LS_BLOB_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "8e336469-1c6b-4b0b-a06c-748a7c586f7c"
+		},
+		"LS_BLOB_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "@{linkedService().LS_SPN_ID}"
+		},
+		"LS_FILE_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "@linkedService().secretName"
+		},
+		"LS_FileShare_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "@{linkedService().LS_Host}"
+		},
+		"LS_FileShare_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "@{linkedService().LS_KVS_UserName}"
+		},
+		"LS_HTTP_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().Base_URL}"
+		},
+		"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://s161d01-kv-ops.vault.azure.net/"
+		},
+		"LS_REST_API_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().Base_URL}"
+		},
+		"LS_SQLDB_AzureSQL_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "@{linkedService().LS_KVS_ConnectionString}"
+		},
+		"LS_SQLDB_AzureSQL_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "@{linkedService().LS_SPN_ID}"
+		},
+		"LS_SQLDB_AzureSQL_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "9c7d9dd3-840c-4b3f-818e-552865082e16"
+		},
+		"LS_SQL_SQLServer_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "@linkedService().Key_Vault_Secret_ConnectionString"
+		},
+		"LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://s161d01adlsodp.dfs.core.windows.net"
+		},
+		"s161d01-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/providers/Microsoft.Storage/storageAccounts/s161d01adlsodp"
+		},
+		"s161d01-pep-adf-wip-odp-adlsodp_properties_groupId": {
+			"type": "string",
+			"defaultValue": "dfs"
+		},
+		"s161d01-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/providers/Microsoft.Sql/servers/s161d01-sql-odp"
+		},
+		"s161d01-pep-adfwip-sql-odp_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
+		},
+		"s161d01-pep-adfwip-sql-odp_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"s161d01-sql-odp.database.windows.net"
+			]
+		},
+		"s161d01-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-SLD/providers/Microsoft.Sql/servers/s161d01-sql-sld"
+		},
+		"s161d01-pep-adfwip-sql-sld_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
+		},
+		"s161d01-pep-adfwip-sql-sld_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"s161d01-sql-sld.database.windows.net"
+			]
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "s161d01-adf-odpwip_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_DBR_accessToken": {
+						"value": "[parameters('LS_DBR_accessToken')]"
+					},
+					"LS_HTTP_properties_typeProperties_url": {
+						"value": "[parameters('LS_HTTP_properties_typeProperties_url')]"
+					},
+					"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
+						"value": "[parameters('LS_KV_prodkv01_properties_typeProperties_baseUrl')]"
+					},
+					"LS_REST_API_properties_typeProperties_url": {
+						"value": "[parameters('LS_REST_API_properties_typeProperties_url')]"
+					},
+					"LS_BLOB_properties_typeProperties_serviceEndpoint": {
+						"value": "[parameters('LS_BLOB_properties_typeProperties_serviceEndpoint')]"
+					},
+					"LS_BLOB_properties_typeProperties_tenant": {
+						"value": "[parameters('LS_BLOB_properties_typeProperties_tenant')]"
+					},
+					"LS_BLOB_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('LS_BLOB_properties_typeProperties_servicePrincipalId')]"
+					},
+					"LS_FILE_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('LS_FILE_properties_typeProperties_connectionString_secretName')]"
+					},
+					"LS_FileShare_properties_typeProperties_host": {
+						"value": "[parameters('LS_FileShare_properties_typeProperties_host')]"
+					},
+					"LS_FileShare_properties_typeProperties_userId": {
+						"value": "[parameters('LS_FileShare_properties_typeProperties_userId')]"
+					},
+					"s161d01-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
+						"value": "[parameters('s161d01-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId')]"
+					},
+					"s161d01-pep-adf-wip-odp-adlsodp_properties_groupId": {
+						"value": "[parameters('s161d01-pep-adf-wip-odp-adlsodp_properties_groupId')]"
+					},
+					"s161d01-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
+						"value": "[parameters('s161d01-pep-adfwip-sql-odp_properties_privateLinkResourceId')]"
+					},
+					"s161d01-pep-adfwip-sql-odp_properties_groupId": {
+						"value": "[parameters('s161d01-pep-adfwip-sql-odp_properties_groupId')]"
+					},
+					"s161d01-pep-adfwip-sql-odp_properties_fqdns": {
+						"value": "[parameters('s161d01-pep-adfwip-sql-odp_properties_fqdns')]"
+					},
+					"s161d01-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
+						"value": "[parameters('s161d01-pep-adfwip-sql-sld_properties_privateLinkResourceId')]"
+					},
+					"s161d01-pep-adfwip-sql-sld_properties_groupId": {
+						"value": "[parameters('s161d01-pep-adfwip-sql-sld_properties_groupId')]"
+					},
+					"s161d01-pep-adfwip-sql-sld_properties_fqdns": {
+						"value": "[parameters('s161d01-pep-adfwip-sql-sld_properties_fqdns')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "s161d01-adf-odpwip_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_ADLSG2_accountKey": {
+						"value": "[parameters('LS_ADLSG2_accountKey')]"
+					},
+					"LS_SQLDB_ConfigDB_connectionString": {
+						"value": "[parameters('LS_SQLDB_ConfigDB_connectionString')]"
+					},
+					"LS_UAMI_PE_SQLDB_AzureSQL_connectionString": {
+						"value": "[parameters('LS_UAMI_PE_SQLDB_AzureSQL_connectionString')]"
+					},
+					"LS_ADLSG2_properties_typeProperties_url": {
+						"value": "[parameters('LS_ADLSG2_properties_typeProperties_url')]"
+					},
+					"LS_SQLDB_AzureSQL_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('LS_SQLDB_AzureSQL_properties_typeProperties_connectionString_secretName')]"
+					},
+					"LS_SQLDB_AzureSQL_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('LS_SQLDB_AzureSQL_properties_typeProperties_servicePrincipalId')]"
+					},
+					"LS_SQLDB_AzureSQL_properties_typeProperties_tenant": {
+						"value": "[parameters('LS_SQLDB_AzureSQL_properties_typeProperties_tenant')]"
+					},
+					"LS_SQL_SQLServer_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('LS_SQL_SQLServer_properties_typeProperties_connectionString_secretName')]"
+					},
+					"LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
+						"value": "[parameters('LS_UAMI_PE_ADLSG2_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 's161d01-adf-odpwip_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "s161d01-adf-odpwip_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 's161d01-adf-odpwip_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "s161d01-adf-odpwip_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 's161d01-adf-odpwip_ArmTemplate_2')]"
+			]
+		}
+	]
+}

@@ -1,0 +1,115 @@
+{
+	"name": "zCopyDB2ADLSG2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy Data With Table Reference",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"dataIntegrationUnits": 32,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "UKPRN",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "UKPRN",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "LearnRefNumber",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "LearnRefNumber",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "ULN",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "ULN",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_UAMI_PE_AzureSQLDB",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_Schema": "Valid",
+							"DS_Table": "LearnerDestinationandProgression",
+							"DS_Server": "s161d01-sql-sld.database.windows.net",
+							"DS_Database": "ILR2122DataStore"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_UAMI_PE_ADLSG2_Parquet",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_File_Path_Container": "datalake",
+							"DS_File_Path_Directory": "root/raw/internal/ilrdemo/2022/02/14//",
+							"DS_File_Path_File": "Learner.parquet",
+							"DS_Service_Endpoint": "https://s161d01saodp.blob.core.windows.net/",
+							"DS_File_CompressionType": "None"
+						}
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "z_DataMigration"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-02-18T16:33:06Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

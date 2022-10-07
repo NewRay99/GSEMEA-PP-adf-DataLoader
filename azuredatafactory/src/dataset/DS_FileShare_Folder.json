@@ -1,0 +1,58 @@
+{
+	"name": "DS_FileShare_Folder",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_FileShare",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"LS_Host": "@dataset().DS_Host",
+				"LS_KVS_UserName": "@dataset().DS_KVS_Username",
+				"LS_KVS_Password": "@dataset().DS_KVS_Password"
+			}
+		},
+		"parameters": {
+			"DS_Host": {
+				"type": "string"
+			},
+			"DS_KVS_Username": {
+				"type": "string"
+			},
+			"DS_KVS_Password": {
+				"type": "string"
+			},
+			"DS_File_Path_Directory": {
+				"type": "string"
+			},
+			"DS_File_CompressionType": {
+				"type": "string"
+			},
+			"DS_File_Delimiter": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"folderPath": {
+					"value": "@dataset().DS_File_Path_Directory",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": {
+				"value": "@dataset().DS_File_Delimiter",
+				"type": "Expression"
+			},
+			"compressionCodec": {
+				"value": "@dataset().DS_File_CompressionType",
+				"type": "Expression"
+			},
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

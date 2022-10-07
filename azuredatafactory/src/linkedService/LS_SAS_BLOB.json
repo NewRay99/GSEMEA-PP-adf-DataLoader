@@ -1,0 +1,36 @@
+{
+	"name": "LS_SAS_BLOB",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"LS_Service_Endpoint": {
+				"type": "string",
+				"defaultValue": "https://s161d02adlsodp.blob.core.windows.net"
+			},
+			"LS_KVS_SAS_Token": {
+				"type": "string",
+				"defaultValue": "sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2022-06-08T17:12:32Z&st=2022-06-08T09:12:32Z&spr=https&sig=0IVNZURRL6Ak7VfOqbIGW21sUBjCID7pTvyFIOTKAqY%3D"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"sasUri": "@{linkedService().LS_Service_Endpoint}",
+			"sasToken": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KV_prodkv01",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": {
+					"value": "@linkedService().LS_KVS_SAS_Token",
+					"type": "Expression"
+				}
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
