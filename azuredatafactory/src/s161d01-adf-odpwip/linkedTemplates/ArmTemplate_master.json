@@ -5,7 +5,7 @@
 		"factoryName": {
 			"type": "string",
 			"metadata": "Data Factory name",
-			"defaultValue": "s161d01-adf-odpwip"
+			"defaultValue": "devt-adf-odpwip"
 		},
 		"LS_ADLSG2_accountKey": {
 			"type": "secureString",
@@ -25,7 +25,7 @@
 		},
 		"LS_ADLSG2_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://s161d01adlsodp.dfs.core.windows.net"
+			"defaultValue": "https://devtadlsodp.dfs.core.windows.net"
 		},
 		"LS_BLOB_properties_typeProperties_serviceEndpoint": {
 			"type": "string",
@@ -57,7 +57,7 @@
 		},
 		"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
 			"type": "string",
-			"defaultValue": "https://s161d01-kv-ops.vault.azure.net/"
+			"defaultValue": "https://devt-core-kv-01.vault.azure.net/"
 		},
 		"LS_REST_API_properties_typeProperties_url": {
 			"type": "string",
@@ -81,42 +81,42 @@
 		},
 		"LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://s161d01adlsodp.dfs.core.windows.net"
+			"defaultValue": "https://devtadlsodp.dfs.core.windows.net"
 		},
-		"s161d01-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
+		"devt-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
 			"type": "string",
-			"defaultValue": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/providers/Microsoft.Storage/storageAccounts/s161d01adlsodp"
+			"defaultValue": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.Storage/storageAccounts/devtadlsodp"
 		},
-		"s161d01-pep-adf-wip-odp-adlsodp_properties_groupId": {
+		"devt-pep-adf-wip-odp-adlsodp_properties_groupId": {
 			"type": "string",
 			"defaultValue": "dfs"
 		},
-		"s161d01-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
+		"devt-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
 			"type": "string",
-			"defaultValue": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/providers/Microsoft.Sql/servers/s161d01-sql-odp"
+			"defaultValue": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.Sql/servers/devt-sql-odp"
 		},
-		"s161d01-pep-adfwip-sql-odp_properties_groupId": {
+		"devt-pep-adfwip-sql-odp_properties_groupId": {
 			"type": "string",
 			"defaultValue": "sqlServer"
 		},
-		"s161d01-pep-adfwip-sql-odp_properties_fqdns": {
+		"devt-pep-adfwip-sql-odp_properties_fqdns": {
 			"type": "array",
 			"defaultValue": [
-				"s161d01-sql-odp.database.windows.net"
+				"devt-sql-odp.database.windows.net"
 			]
 		},
-		"s161d01-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
+		"devt-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
 			"type": "string",
-			"defaultValue": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-SLD/providers/Microsoft.Sql/servers/s161d01-sql-sld"
+			"defaultValue": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/devt-rg-SLD/providers/Microsoft.Sql/servers/devt-sql-sld"
 		},
-		"s161d01-pep-adfwip-sql-sld_properties_groupId": {
+		"devt-pep-adfwip-sql-sld_properties_groupId": {
 			"type": "string",
 			"defaultValue": "sqlServer"
 		},
-		"s161d01-pep-adfwip-sql-sld_properties_fqdns": {
+		"devt-pep-adfwip-sql-sld_properties_fqdns": {
 			"type": "array",
 			"defaultValue": [
-				"s161d01-sql-sld.database.windows.net"
+				"devt-sql-sld.database.windows.net"
 			]
 		},
 		"containerUri": {
@@ -133,7 +133,7 @@
 	},
 	"resources": [
 		{
-			"name": "s161d01-adf-odpwip_ArmTemplate_0",
+			"name": "devt-adf-odpwip_ArmTemplate_0",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2018-02-01",
 			"properties": {
@@ -176,36 +176,36 @@
 					"LS_FileShare_properties_typeProperties_userId": {
 						"value": "[parameters('LS_FileShare_properties_typeProperties_userId')]"
 					},
-					"s161d01-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
-						"value": "[parameters('s161d01-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId')]"
+					"devt-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
+						"value": "[parameters('devt-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId')]"
 					},
-					"s161d01-pep-adf-wip-odp-adlsodp_properties_groupId": {
-						"value": "[parameters('s161d01-pep-adf-wip-odp-adlsodp_properties_groupId')]"
+					"devt-pep-adf-wip-odp-adlsodp_properties_groupId": {
+						"value": "[parameters('devt-pep-adf-wip-odp-adlsodp_properties_groupId')]"
 					},
-					"s161d01-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
-						"value": "[parameters('s161d01-pep-adfwip-sql-odp_properties_privateLinkResourceId')]"
+					"devt-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
+						"value": "[parameters('devt-pep-adfwip-sql-odp_properties_privateLinkResourceId')]"
 					},
-					"s161d01-pep-adfwip-sql-odp_properties_groupId": {
-						"value": "[parameters('s161d01-pep-adfwip-sql-odp_properties_groupId')]"
+					"devt-pep-adfwip-sql-odp_properties_groupId": {
+						"value": "[parameters('devt-pep-adfwip-sql-odp_properties_groupId')]"
 					},
-					"s161d01-pep-adfwip-sql-odp_properties_fqdns": {
-						"value": "[parameters('s161d01-pep-adfwip-sql-odp_properties_fqdns')]"
+					"devt-pep-adfwip-sql-odp_properties_fqdns": {
+						"value": "[parameters('devt-pep-adfwip-sql-odp_properties_fqdns')]"
 					},
-					"s161d01-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
-						"value": "[parameters('s161d01-pep-adfwip-sql-sld_properties_privateLinkResourceId')]"
+					"devt-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
+						"value": "[parameters('devt-pep-adfwip-sql-sld_properties_privateLinkResourceId')]"
 					},
-					"s161d01-pep-adfwip-sql-sld_properties_groupId": {
-						"value": "[parameters('s161d01-pep-adfwip-sql-sld_properties_groupId')]"
+					"devt-pep-adfwip-sql-sld_properties_groupId": {
+						"value": "[parameters('devt-pep-adfwip-sql-sld_properties_groupId')]"
 					},
-					"s161d01-pep-adfwip-sql-sld_properties_fqdns": {
-						"value": "[parameters('s161d01-pep-adfwip-sql-sld_properties_fqdns')]"
+					"devt-pep-adfwip-sql-sld_properties_fqdns": {
+						"value": "[parameters('devt-pep-adfwip-sql-sld_properties_fqdns')]"
 					}
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "s161d01-adf-odpwip_ArmTemplate_1",
+			"name": "devt-adf-odpwip_ArmTemplate_1",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2018-02-01",
 			"properties": {
@@ -248,11 +248,11 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 's161d01-adf-odpwip_ArmTemplate_0')]"
+				"[resourceId('Microsoft.Resources/deployments', 'devt-adf-odpwip_ArmTemplate_0')]"
 			]
 		},
 		{
-			"name": "s161d01-adf-odpwip_ArmTemplate_2",
+			"name": "devt-adf-odpwip_ArmTemplate_2",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2018-02-01",
 			"properties": {
@@ -268,11 +268,11 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 's161d01-adf-odpwip_ArmTemplate_1')]"
+				"[resourceId('Microsoft.Resources/deployments', 'devt-adf-odpwip_ArmTemplate_1')]"
 			]
 		},
 		{
-			"name": "s161d01-adf-odpwip_ArmTemplate_3",
+			"name": "devt-adf-odpwip_ArmTemplate_3",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2018-02-01",
 			"properties": {
@@ -288,7 +288,7 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 's161d01-adf-odpwip_ArmTemplate_2')]"
+				"[resourceId('Microsoft.Resources/deployments', 'devt-adf-odpwip_ArmTemplate_2')]"
 			]
 		}
 	]

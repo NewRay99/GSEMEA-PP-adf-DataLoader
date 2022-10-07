@@ -26,7 +26,7 @@
 			},
 			"DS_Server": {
 				"type": "string",
-				"defaultValue": "s161d01-sql-odp.database.windows.net"
+				"defaultValue": "devt-sql-odp.database.windows.net"
 			},
 			"DS_Database": {
 				"type": "string",

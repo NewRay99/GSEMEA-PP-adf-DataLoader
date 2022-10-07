@@ -5,7 +5,7 @@
 		"parameters": {
 			"LS_Service_Endpoint": {
 				"type": "string",
-				"defaultValue": "https://s161d02adlsodp.blob.core.windows.net"
+				"defaultValue": "https://devtadlsodp.blob.core.windows.net"
 			},
 			"LS_KVS_SAS_Token": {
 				"type": "string",

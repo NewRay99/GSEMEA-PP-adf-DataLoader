@@ -1533,7 +1533,7 @@
 				"typeProperties": {
 					"variableName": "PipelineRunId",
 					"value": {
-						"value": "@concat('https://management.azure.com/subscriptions/',pipeline().globalParameters.subscriptionId,'/resourceGroups/s161d01-rg-odp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?isRecursive=true&api-version=2018-06-01')",
+						"value": "@concat('https://management.azure.com/subscriptions/',pipeline().globalParameters.subscriptionId,'/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?isRecursive=true&api-version=2018-06-01')",
 						"type": "Expression"
 					}
 				}

@@ -11,7 +11,7 @@ param environment string = 'Dev'
   'FactoryGitHubConfiguration'
 ])
 param repositoryType string = 'FactoryVSTSConfiguration'
-param projectName string = 'S161-ESFA-Adopt'
+param projectName string = 'GSEMEA-PP-adf-DataLoader'
 param accountName string = 'dfe-ssp'
 param collaborationBranch string = 'main'
 param rootFolder string = '/azuredatafactory/src'

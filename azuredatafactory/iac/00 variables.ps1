@@ -1,3 +1,3 @@
-$RG = "s161d01-rg-odp"
+$RG = "rg-devt-gsemeapp"
 $subscription = "s161-esfadatascience-development"
-$location = "West Europe"
+$location = "UK South"

@@ -85,7 +85,7 @@
 						"parameters": {
 							"DS_Schema": "Valid",
 							"DS_Table": "LearnerDestinationandProgression",
-							"DS_Server": "s161d01-sql-sld.database.windows.net",
+							"DS_Server": "devt-sql-sld.database.windows.net",
 							"DS_Database": "ILR2122DataStore"
 						}
 					}
@@ -98,7 +98,7 @@
 							"DS_File_Path_Container": "datalake",
 							"DS_File_Path_Directory": "root/raw/internal/ilrdemo/2022/02/14//",
 							"DS_File_Path_File": "Learner.parquet",
-							"DS_Service_Endpoint": "https://s161d01saodp.blob.core.windows.net/",
+							"DS_Service_Endpoint": "https://devtsaodp.blob.core.windows.net/",
 							"DS_File_CompressionType": "None"
 						}
 					}

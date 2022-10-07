@@ -7,7 +7,7 @@ This Solution provides a CICD for the Data Engineering Data Factory solution. th
 There are some prerequisites & build consider before running this project
 
 1. As mentioned, the ADF repo features handles management of the source code
-2. At the time of writing the default databricks solution is sitting within [Dev ADF](https://adf.azure.com/en/authoring?factory=%2Fsubscriptions%2F81703de1-ec12-47e5-91f8-ef521199196e%2FresourceGroups%2Fs161d01-rg-odp%2Fproviders%2FMicrosoft.DataFactory%2Ffactories%2Fs161d01-adf-platform)
+2. At the time of writing the default databricks solution is sitting within [Dev ADF](https://adf.azure.com/en/authoring?factory=%2Fsubscriptions%2Fabc596af-81dc-4cac-87d1-d89cd6c6e10e%2FresourceGroups%2Frg-devt-gsemeapp%2Fproviders%2FMicrosoft.DataFactory%2Ffactories%2Fadf-devt-gsemeapp)
 3. Developers are advised to branch off the main code ![Connect to a Repo](images/ADFBranch.PNG)
 
    opens to
@@ -22,7 +22,7 @@ There are some prerequisites & build consider before running this project
 1. Installation process
 
 2. create SPN on azureportal (1 for every envorinment that you deploy to)
-   [S161-ESFA-Adopt](https://dfe-ssp.visualstudio.com/S161-ESFA-Adopt/)
+   [GSEMEA-PP-adf-DataLoader](https://dfe-ssp.visualstudio.com/GSEMEA-PP-adf-DataLoader/)
 
 - Navigate to the Settings window
 
@@ -36,7 +36,7 @@ There are some prerequisites & build consider before running this project
 3. the SPN's are associated to each deployment which need to be set in the azure-pipline.yml
 4. the main branch holds the latest code
 5. to initiate a CICD one must create a "feature" or "release" branch which in doing so automatically triggers the deployment process
-6. setup the DevOps groups Vairables in the Library. the variable group used in this solution is vg-odin-core
+6. setup the DevOps groups Vairables in the Library. the variable group used in this solution is vg-gsemeapp-core
 7. setup the ADF paramaters using the files below. as a general guideline, the static datasources must be repointed their respected enviornments
 
 - [arm-template-parameters-devtest.json](/azuredatafactory/src/arm-template-parameters-devtest.json)
@@ -48,7 +48,7 @@ There are some prerequisites & build consider before running this project
 
 8. setup requires that once the datafactory is released, the User Assigned Managed Identy [s161...-uami-adf-platform] used by the ADF needs to be added to the Read Group (s161-ESFADataScience-Reader USR)
 
-9. setup requires that the User Assigned Managed Identy [s161...-uami-adf-platform] has contributor access to the PlatformDB. Perform this in the [IAM](https://portal.azure.com/#@platform.education.gov.uk/resource/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/users)
+9. setup requires that the User Assigned Managed Identy [s161...-uami-adf-platform] has contributor access to the PlatformDB. Perform this in the [IAM](https://portal.azure.com/#@platform.education.gov.uk/resource/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/rg-devt-gsemeapp/users)
 
 10. if you are deploying a new ADF to an enviornment, the solution might not add the global paramter to the enviornment. you must do this manually
 

@@ -5,7 +5,7 @@
 		"parameters": {
 			"LS_WorkspaceResourceId": {
 				"type": "String",
-				"defaultValue": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP-DBR/providers/Microsoft.Databricks/workspaces/s161d01-ODP-DBR-WS"
+				"defaultValue": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/rg-devt-gsemeapp-DBR/providers/Microsoft.Databricks/workspaces/devt-ODP-DBR-WS"
 			},
 			"LS_DatabrickWorkspaceUrl": {
 				"type": "String",

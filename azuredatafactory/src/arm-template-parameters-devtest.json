@@ -3,45 +3,45 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "factoryName": {
-            "value": "s161d02-adf-platform"
+            "value": "devt-adf-platform"
         },
         "LS_ADLSG2_properties_typeProperties_url":{
-            "value": "https://s161d02adlsodp.dfs.core.windows.net"
+            "value": "https://devtadlsodp.dfs.core.windows.net"
         },
         "LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
-            "value": "https://s161d02adlsodp.dfs.core.windows.net"
+            "value": "https://devtadlsodp.dfs.core.windows.net"
         },
         "LS_DBR_properties_typeProperties_existingClusterId": {
             "value": "0523-141934-dw7xkk"
         },
         "LS_Cred_UAMI_ADF_properties_typeProperties_resourceId": {
-            "value": "/subscriptions/{subscriptionId}/resourcegroups/s161d02-rg-odp-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/s161d02-uami-adf-platform"
+            "value": "/subscriptions/{subscriptionId}/resourcegroups/devt-rg-odp-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/devt-uami-adf-platform"
         },
         "LS_SQLDB_ConfigDB_connectionString": {
-            "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=s161d02-sql-odp.database.windows.net;Initial Catalog=PlatformDB"
+            "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=devt-sql-odp.database.windows.net;Initial Catalog=PlatformDB"
         },
         "LS_UAMI_PE_SQLDB_AzureSQL_connectionString": {
         "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=@{linkedService().LS_Server};Initial Catalog=@{linkedService().LS_Database}"
         },
         "LS_KV_prodkv01_properties_typeProperties_baseUrl": {
-        "value": "https://s161d02-kv-ops.vault.azure.net/"
+        "value": "https://devt-core-kv-01.vault.azure.net/"
         },
         "dataFactory_properties_globalParameters_subscriptionId_value": {
             "value": "{subscriptionId}"
         },
         "dataFactory_identity_userAssignedIdentities": {
             "value": {
-                "/subscriptions/{subscriptionId}/resourcegroups/s161d02-rg-ODP-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/s161d02-uami-adf-platform": {}
+                "/subscriptions/{subscriptionId}/resourcegroups/devt-rg-ODP-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/devt-uami-adf-platform": {}
             }   
         },
         "pep-adf-adls_properties_privateLinkResourceId": {
-            "value": "/subscriptions/{subscriptionId}/resourceGroups/s161d02-rg-ODP-core/providers/Microsoft.Storage/storageAccounts/s161d02adlsodp"
+            "value": "/subscriptions/{subscriptionId}/resourceGroups/devt-rg-ODP-core/providers/Microsoft.Storage/storageAccounts/devtadlsodp"
         },
         "pep-adf-sql-sld_properties_privateLinkResourceId": {
-            "value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-SLD/providers/Microsoft.Sql/servers/s161d01-sql-SLD"
+            "value": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/devt-rg-SLD/providers/Microsoft.Sql/servers/devt-sql-SLD"
         },
         "pep-adf-sql_properties_privateLinkResourceId": {
-            "value": "/subscriptions/{subscriptionId}/resourceGroups/s161d02-rg-ODP-core/providers/Microsoft.Sql/servers/s161d02-sql-odp"
+            "value": "/subscriptions/{subscriptionId}/resourceGroups/devt-rg-ODP-core/providers/Microsoft.Sql/servers/devt-sql-odp"
         }
     }
 }

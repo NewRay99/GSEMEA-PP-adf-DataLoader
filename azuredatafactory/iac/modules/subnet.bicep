@@ -1,6 +1,6 @@
 param vnetName string
 param privateLinkSubnetName string
-param CoreRG string = 's161d01-core'
+param CoreRG string = 'devt-core'
 param addressPrefix string
 
 resource existingVNET 'Microsoft.Network/virtualNetworks@2021-02-01' existing = {
@@ -21,4 +21,4 @@ resource subnet_resource 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' 
 }
 
 output addressPrefix string = subnet_resource.properties.addressPrefix
-//az network vnet subnet update --disable-private-endpoint-network-policies true --name s161t01-core-sn-01 --resource-group s161t01-core --vnet-name s161t01-core-vn-01
+//az network vnet subnet update --disable-private-endpoint-network-policies true --name stage-core-sn-01 --resource-group stage-core --vnet-name stage-core-vn-01

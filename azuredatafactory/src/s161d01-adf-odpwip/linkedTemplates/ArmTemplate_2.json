@@ -5,7 +5,7 @@
 		"factoryName": {
 			"type": "string",
 			"metadata": "Data Factory name",
-			"defaultValue": "s161d01-adf-odpwip"
+			"defaultValue": "devt-adf-odpwip"
 		}
 	},
 	"variables": {

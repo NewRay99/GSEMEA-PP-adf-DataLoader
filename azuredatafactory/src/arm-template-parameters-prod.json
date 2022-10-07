@@ -3,42 +3,42 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "factoryName": {
-            "value": "s161p01-adf-platform"
+            "value": "adf-prod-gsemeapp"
         },
         "LS_ADLSG2_properties_typeProperties_url":{
-            "value": "https://s161p01adlsodp.dfs.core.windows.net"
+            "value": "https://prodadlsodp.dfs.core.windows.net"
         },
         "LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
-            "value": "https://s161p01adlsodp.dfs.core.windows.net"
+            "value": "https://prodadlsodp.dfs.core.windows.net"
         },
         "LS_Cred_UAMI_ADF_properties_typeProperties_resourceId": {
-            "value": "/subscriptions/{subscriptionId}/resourcegroups/s161p01-rg-odp-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/s161p01-uami-adf-platform"
+            "value": "/subscriptions/{subscriptionId}/resourcegroups/prod-rg-odp-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/prod-uami-adf-platform"
         },
         "LS_SQLDB_ConfigDB_connectionString": {
-            "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=s161p01-sql-odp.database.windows.net;Initial Catalog=PlatformDB"
+            "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=prod-sql-odp.database.windows.net;Initial Catalog=PlatformDB"
         },
         "LS_UAMI_PE_SQLDB_AzureSQL_connectionString": {
         "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=@{linkedService().LS_Server};Initial Catalog=@{linkedService().LS_Database}"
         },
         "LS_KV_prodkv01_properties_typeProperties_baseUrl": {
-        "value": "https://s161p01-kv-ops.vault.azure.net/"
+        "value": "https://prod-kv-ops.vault.azure.net/"
         },
         "dataFactory_properties_globalParameters_subscriptionId_value": {
             "value": "{subscriptionId}"
         },
         "dataFactory_identity_userAssignedIdentities": {
             "value": {
-                "/subscriptions/{subscriptionId}/resourcegroups/s161p01-rg-ODP-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/s161p01-uami-adf-platform": {}
+                "/subscriptions/{subscriptionId}/resourcegroups/prod-rg-ODP-core/providers/Microsoft.ManagedIdentity/userAssignedIdentities/prod-uami-adf-platform": {}
             }   
         },
         "pep-adf-adls_properties_privateLinkResourceId": {
-            "value": "/subscriptions/{subscriptionId}/resourceGroups/s161p01-rg-ODP/providers/Microsoft.Storage/storageAccounts/s161p01adlsodp"
+            "value": "/subscriptions/{subscriptionId}/resourceGroups/prod-rg-ODP/providers/Microsoft.Storage/storageAccounts/prodadlsodp"
         },
         "pep-adf-sql-sld_properties_privateLinkResourceId": {
-            "value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-SLD/providers/Microsoft.Sql/servers/s161d01-sql-SLD"
+            "value": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/devt-rg-SLD/providers/Microsoft.Sql/servers/devt-sql-SLD"
         },
         "pep-adf-sql_properties_privateLinkResourceId": {
-            "value": "/subscriptions/{subscriptionId}/resourceGroups/s161p01-rg-ODP/providers/Microsoft.Sql/servers/s161p01-sql-odp"
+            "value": "/subscriptions/{subscriptionId}/resourceGroups/prod-rg-ODP/providers/Microsoft.Sql/servers/prod-sql-odp"
         }
     }
 }

@@ -3,25 +3,25 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "resourcePrefix": {
-      "value": "s161d02"
+      "value": "devt"
     },
     "CoreRG": {
-      "value": "s161d02-core"
+      "value": "devt-core"
     },
     "vNet": {
-      "value": "s161d02-core-vn-01"
+      "value": "devt-core-vn-01"
     },
     "subNet": {
-      "value": "s161d02-core-sn-03"
+      "value": "devt-core-sn-03"
     },
     "coreDSRGName": {
       "value": "rg-ops-core"
     },
     "coreDSKVName": {
-      "value": "s161d02-kv-ops"
+      "value": "devt-core-kv-01"
     },
     "dataFactoryName": {
-      "value": "s161d02-adf-platform"
+      "value": "devt-adf-platform"
     }
   }
 }

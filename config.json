@@ -43,15 +43,15 @@
         "prod": "dbfs:/databricks/scripts/"
     },
     "keyvault_name": {
-        "dev": "s161d02-kv-OPS",
-        "devtest": "s161d02-kv-OPS",
-        "test": "s161t01-core-kv-01",
+        "dev": "devt-core-kv-01",
+        "devtest": "devt-core-kv-01",
+        "test": "stage-core-kv-01",
         "prod": "zzz"
     },
     "keyvaultId": {
-        "dev": "s161d02-kv-OPS",
-        "devtest": "s161d02-kv-OPS",
-        "test": "s161t01-core-kv-01",
+        "dev": "devt-core-kv-01",
+        "devtest": "devt-core-kv-01",
+        "test": "stage-core-kv-01",
         "prod": "zzz"
     }
 }

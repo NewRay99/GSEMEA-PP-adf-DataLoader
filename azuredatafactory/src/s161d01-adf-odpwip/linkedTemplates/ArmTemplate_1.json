@@ -5,7 +5,7 @@
 		"factoryName": {
 			"type": "string",
 			"metadata": "Data Factory name",
-			"defaultValue": "s161d01-adf-odpwip"
+			"defaultValue": "devt-adf-odpwip"
 		},
 		"LS_ADLSG2_accountKey": {
 			"type": "secureString",
@@ -21,7 +21,7 @@
 		},
 		"LS_ADLSG2_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://s161d01adlsodp.dfs.core.windows.net"
+			"defaultValue": "https://devtadlsodp.dfs.core.windows.net"
 		},
 		"LS_SQLDB_AzureSQL_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
@@ -41,7 +41,7 @@
 		},
 		"LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://s161d01adlsodp.dfs.core.windows.net"
+			"defaultValue": "https://devtadlsodp.dfs.core.windows.net"
 		}
 	},
 	"variables": {
@@ -208,7 +208,7 @@
 				"parameters": {
 					"LS_Server": {
 						"type": "string",
-						"defaultValue": "s161d01-sql-sld.database.windows.net"
+						"defaultValue": "devt-sql-sld.database.windows.net"
 					},
 					"LS_Database": {
 						"type": "string",
@@ -684,7 +684,7 @@
 					},
 					"DS_Server": {
 						"type": "string",
-						"defaultValue": "s161d01-sql-odp.database.windows.net"
+						"defaultValue": "devt-sql-odp.database.windows.net"
 					},
 					"DS_Database": {
 						"type": "string",

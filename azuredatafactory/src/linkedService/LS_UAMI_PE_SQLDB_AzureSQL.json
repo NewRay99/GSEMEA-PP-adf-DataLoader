@@ -4,7 +4,7 @@
 		"parameters": {
 			"LS_Server": {
 				"type": "string",
-				"defaultValue": "s161d01-sql-sld.database.windows.net"
+				"defaultValue": "devt-sql-sld.database.windows.net"
 			},
 			"LS_Database": {
 				"type": "string",

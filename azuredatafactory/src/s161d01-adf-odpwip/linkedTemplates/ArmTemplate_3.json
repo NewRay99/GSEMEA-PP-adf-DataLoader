@@ -5,7 +5,7 @@
 		"factoryName": {
 			"type": "string",
 			"metadata": "Data Factory name",
-			"defaultValue": "s161d01-adf-odpwip"
+			"defaultValue": "devt-adf-odpwip"
 		}
 	},
 	"variables": {
@@ -10578,7 +10578,7 @@
 													"value": "@activity('LKP_Config').output.firstRow.Sink_TableName",
 													"type": "Expression"
 												},
-												"DS_Server": "s161d01-sql-odp.database.windows.net",
+												"DS_Server": "devt-sql-odp.database.windows.net",
 												"DS_Database": "PlatformDB"
 											}
 										}
@@ -10642,7 +10642,7 @@
 															"value": "@activity('LKP_Config').output.firstRow.Sink_TableName",
 															"type": "Expression"
 														},
-														"DS_Server": "s161d01-sql-odp.database.windows.net",
+														"DS_Server": "devt-sql-odp.database.windows.net",
 														"DS_Database": "PlatformDB"
 													}
 												},
@@ -10776,7 +10776,7 @@
 															"value": "@activity('LKP_Config').output.firstRow.ExecuteTableName",
 															"type": "Expression"
 														},
-														"DS_Server": "s161d01-sql-odp.database.windows.net",
+														"DS_Server": "devt-sql-odp.database.windows.net",
 														"DS_Database": "PlatformDB"
 													}
 												},
@@ -11570,7 +11570,7 @@
 								"parameters": {
 									"DS_Schema": "Valid",
 									"DS_Table": "LearnerDestinationandProgression",
-									"DS_Server": "s161d01-sql-sld.database.windows.net",
+									"DS_Server": "devt-sql-sld.database.windows.net",
 									"DS_Database": "ILR2122DataStore"
 								}
 							}
@@ -13573,7 +13573,7 @@
 						"typeProperties": {
 							"variableName": "PipelineRunId",
 							"value": {
-								"value": "@concat('https://management.azure.com/subscriptions/9c7d9dd3-840c-4b3f-818e-552865082e16/resourceGroups/s161d01-rg-odp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?api-version=2018-06-01')",
+								"value": "@concat('https://management.azure.com/subscriptions/9c7d9dd3-840c-4b3f-818e-552865082e16/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?api-version=2018-06-01')",
 								"type": "Expression"
 							}
 						}
@@ -15083,7 +15083,7 @@
 						"typeProperties": {
 							"variableName": "PipelineRunId",
 							"value": {
-								"value": "@concat('https://management.azure.com/subscriptions/9c7d9dd3-840c-4b3f-818e-552865082e16/resourceGroups/s161d01-rg-odp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?api-version=2018-06-01')",
+								"value": "@concat('https://management.azure.com/subscriptions/9c7d9dd3-840c-4b3f-818e-552865082e16/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?api-version=2018-06-01')",
 								"type": "Expression"
 							}
 						}
@@ -15184,7 +15184,7 @@
 						"typeProperties": {
 							"variableName": "PipelineRunId",
 							"value": {
-								"value": "@concat('https://management.azure.com/subscriptions/9c7d9dd3-840c-4b3f-818e-552865082e16/resourceGroups/s161d01-rg-odp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?api-version=2018-06-01')",
+								"value": "@concat('https://management.azure.com/subscriptions/9c7d9dd3-840c-4b3f-818e-552865082e16/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.DataFactory/factories/', pipeline().DataFactory,'/pipelineruns/',pipeline().RunId,'/cancel?api-version=2018-06-01')",
 								"type": "Expression"
 							}
 						}

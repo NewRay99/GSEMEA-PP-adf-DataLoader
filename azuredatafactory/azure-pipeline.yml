@@ -19,19 +19,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: vg-odin-core
+  - group: vg-gsemeapp-core
   - name: location
-    value: 'West Europe'
+    value: 'UK South'
   - name: subscriptionIdDev
-    value: '81703de1-ec12-47e5-91f8-ef521199196e'
+    value: 'abc596af-81dc-4cac-87d1-d89cd6c6e10e'
   - name: resourceGroupNameDev
-    value: 's161d01-rg-odp'
+    value: 'rg-devt-gsemeapp'
   - name: dataFactoryNameDev
-    value: 's161d01-adf-platform'
+    value: 'adf-devt-gsemeapp'
   - name: DataFactoryResourceId
     value: /subscriptions/$(subscriptionIdDev)/resourceGroups/$(resourceGroupNameDev)/providers/Microsoft.DataFactory/factories/$(dataFactoryNameDev)
   - name: projectName
-    value: S161-ESFA-Adopt
+    value: GSEMEA-PP-adf-DataLoader
     
 
 stages:
@@ -53,7 +53,7 @@ stages:
     displayName: devtest
     dependsOn: build
     variables:
-      UserAssignedMI: 's161d02-uami-adf-platform'
+      UserAssignedMI: 'devt-uami-adf-platform'
     jobs:
     - template: azure-deploy.yml
       parameters:
@@ -72,7 +72,7 @@ stages:
     displayName: test
     dependsOn: DevTest
     variables:
-      UserAssignedMI: 's161t01-uami-adf-platform'
+      UserAssignedMI: 'stage-uami-adf-platform'
     jobs:
     - template: azure-deploy.yml
       parameters:

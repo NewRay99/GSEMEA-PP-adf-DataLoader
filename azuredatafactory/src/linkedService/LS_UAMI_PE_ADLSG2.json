@@ -4,7 +4,7 @@
 		"parameters": {
 			"LS_Service_Endpoint": {
 				"type": "string",
-				"defaultValue": "https://s161d01adlsodp.blob.core.windows.net"
+				"defaultValue": "https://devtadlsodp.blob.core.windows.net"
 			}
 		},
 		"annotations": [],

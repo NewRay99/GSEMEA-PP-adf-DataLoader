@@ -36,9 +36,9 @@
         "type": "storageAccountName"
     ,
     "Env":{
-        "dev":"s161d01adlsodp",
-        "devtest":"s161d02adlsodp",
-        "test": "s161t01adlsodp",
+        "dev":"devtadlsodp",
+        "devtest":"devtadlsodp",
+        "test": "stageadlsodp",
         "prod": ""
     }
 },
@@ -58,8 +58,8 @@
         "type": "KeyEncryptionKey"
     ,
     "Env":{
-        "dev":"https://s161d01-core-kv-01.vault.azure.net:443/keys/KeyEncryptionKey/6a7af75a112f404d868675f5d4a5c329",
-        "devtest":"https://s161d02-kv-OPS.vault.azure.net:443/keys/KeyEncryptionKey/29c53071d11c4678ba86ef201e6ce3fc",
+        "dev":"https://devt-core-kv-01.vault.azure.net:443/keys/KeyEncryptionKey/6a7af75a112f404d868675f5d4a5c329",
+        "devtest":"https://devt-core-kv-01.vault.azure.net:443/keys/KeyEncryptionKey/29c53071d11c4678ba86ef201e6ce3fc",
         "test": "",
         "prod": ""
     }
@@ -69,9 +69,9 @@
         "type": "SQL Server"
     ,
     "Env":{
-        "dev":"s161d01-sql-odp.database.windows.net",
-        "devtest":"s161d02-sql-odp.database.windows.net",
-        "test": "s161t01-sql-odp.database.windows.net",
+        "dev":"devt-sql-odp.database.windows.net",
+        "devtest":"devt-sql-odp.database.windows.net",
+        "test": "stage-sql-odp.database.windows.net",
         "prod": ""
     }
 },

@@ -1,8 +1,8 @@
 //GLOBAL VARIABLES
 targetScope = 'resourceGroup'
-param projectName string = 'S161-ESFA-Adopt'
+param projectName string = 'GSEMEA-PP-adf-DataLoader'
 param repositoryName string = 'odin-ODP-adf'
-param subscriptionId string = '81703de1-ec12-47e5-91f8-ef521199196e'
+param subscriptionId string = 'abc596af-81dc-4cac-87d1-d89cd6c6e10e'
 
 // param vNet string
 // param subNet string
@@ -21,48 +21,48 @@ param environment string = 'Dev'
 //LOCAL VARIABLES
 param location string = resourceGroup().location
 param resourcegroupname string = resourceGroup().name
-//resourcegroupname = s161d01-rg-ODP
+//resourcegroupname = rg-devt-gsemeapp
 
 var deploymentSettings = {
   Dev: {
-    resourcePrefix: 's161d01'
-    CoreRG: 's161d01-core'
-    vNet: 's161d01-core-vn-01'
-    subNet: 's161d01-core-sn-03'
-    opsRG: 's161d01-rg-ops-core'
-    coreDSKVName: 's161d01-kv-ops'
-    dataFactoryName: 's161d01-adf-platform'
-    userAssignedIdentities: 's161d01-uami-adf-platform'
+    resourcePrefix: 'devt'
+    CoreRG: 'devt-core'
+    vNet: 'devt-core-vn-01'
+    subNet: 'devt-core-sn-03'
+    opsRG: 'devt-rg-ops-core'
+    coreDSKVName: 'devt-core-kv-01'
+    dataFactoryName: 'adf-devt-gsemeapp'
+    userAssignedIdentities: 'devt-uami-adf-platform'
   }
   DevTest: {
-    resourcePrefix: 's161d02'
-    CoreRG: 's161d02-core'
-    vNet: 's161d02-core-vn-01'
-    subNet: 's161d02-core-sn-02'
-    opsRG: 's161d02-rg-ops-core'
-    coreDSKVName: 's161d02-kv-ops'
-    dataFactoryName: 's161d02-adf-platform'
-    userAssignedIdentities: 's161d02-uami-adf-platform'
+    resourcePrefix: 'devt'
+    CoreRG: 'devt-core'
+    vNet: 'devt-core-vn-01'
+    subNet: 'devt-core-sn-02'
+    opsRG: 'devt-rg-ops-core'
+    coreDSKVName: 'devt-core-kv-01'
+    dataFactoryName: 'devt-adf-platform'
+    userAssignedIdentities: 'devt-uami-adf-platform'
   }
   Test: {
-    resourcePrefix: 's161t01'
-    CoreRG: 's161t01-core'
-    vNet: 's161t01-core-vn-01'
-    subNet: 's161t01-core-sn-01'
-    opsRG: 's161t01-rg-ops-core'
-    coreDSKVName: 's161t01-kv-ops'
-    dataFactoryName: 's161t01-adf-platform'
-    userAssignedIdentities: 's161t01-uami-adf-platform'
+    resourcePrefix: 'stage'
+    CoreRG: 'stage-core'
+    vNet: 'stage-core-vn-01'
+    subNet: 'stage-core-sn-01'
+    opsRG: 'stage-rg-ops-core'
+    coreDSKVName: 'stage-kv-ops'
+    dataFactoryName: 'adf-stage-gsemeapp'
+    userAssignedIdentities: 'stage-uami-adf-platform'
   }
   Prod: {
-    resourcePrefix: 's161p01'
-    CoreRG: 's161p01-core'
-    vNet: 's161p01-core-vn-01'
-    subNet: 's161p01-core-sn-01'
-    opsRG: 's161p01-rg-ops-core'
-    coreDSKVName: 's161p01-kv-ops'
-    dataFactoryName: 's161p01-adf-platform'
-    userAssignedIdentities: 's161p01-uami-adf-platform'
+    resourcePrefix: 'prod'
+    CoreRG: 'prod-core'
+    vNet: 'prod-core-vn-01'
+    subNet: 'prod-core-sn-01'
+    opsRG: 'prod-rg-ops-core'
+    coreDSKVName: 'prod-kv-ops'
+    dataFactoryName: 'adf-prod-gsemeapp'
+    userAssignedIdentities: 'prod-uami-adf-platform'
   }
 }
 
@@ -75,7 +75,7 @@ var tags = {
   'Service Offering': 'ESFA Adopt Programme'
 }
 
-//resourcePrefix = s161d01
+//resourcePrefix = devt
 
 resource kvsecret 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
   name: deploymentSettings[environment].coreDSKVName

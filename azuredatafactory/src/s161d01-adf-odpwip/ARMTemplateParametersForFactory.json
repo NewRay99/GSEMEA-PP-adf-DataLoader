@@ -3,7 +3,7 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"factoryName": {
-			"value": "s161d01-adf-platform"
+			"value": "adf-devt-gsemeapp"
 		},
 		"LS_ADLSG2_accountKey": {
 			"value": ""
@@ -18,7 +18,7 @@
 			"value": ""
 		},
 		"LS_ADLSG2_properties_typeProperties_url": {
-			"value": "https://s161d01adlsodp.dfs.core.windows.net"
+			"value": "https://devtadlsodp.dfs.core.windows.net"
 		},
 		"LS_BLOB_properties_typeProperties_serviceEndpoint": {
 			"value": "@{linkedService().LS_Service_Endpoint}"
@@ -42,7 +42,7 @@
 			"value": "@{linkedService().Base_URL}"
 		},
 		"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
-			"value": "https://s161d01-kv-ops.vault.azure.net/"
+			"value": "https://devt-core-kv-01.vault.azure.net/"
 		},
 		"LS_REST_API_properties_typeProperties_url": {
 			"value": "@{linkedService().Base_URL}"
@@ -60,34 +60,34 @@
 			"value": "@linkedService().Key_Vault_Secret_ConnectionString"
 		},
 		"LS_UAMI_PE_ADLSG2_properties_typeProperties_url": {
-			"value": "https://s161d01adlsodp.dfs.core.windows.net"
+			"value": "https://devtadlsodp.dfs.core.windows.net"
 		},
-		"s161d01-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
-			"value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/providers/Microsoft.Storage/storageAccounts/s161d01adlsodp"
+		"devt-pep-adf-wip-odp-adlsodp_properties_privateLinkResourceId": {
+			"value": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.Storage/storageAccounts/devtadlsodp"
 		},
-		"s161d01-pep-adf-wip-odp-adlsodp_properties_groupId": {
+		"devt-pep-adf-wip-odp-adlsodp_properties_groupId": {
 			"value": "dfs"
 		},
-		"s161d01-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
-			"value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-ODP/providers/Microsoft.Sql/servers/s161d01-sql-odp"
+		"devt-pep-adfwip-sql-odp_properties_privateLinkResourceId": {
+			"value": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.Sql/servers/devt-sql-odp"
 		},
-		"s161d01-pep-adfwip-sql-odp_properties_groupId": {
+		"devt-pep-adfwip-sql-odp_properties_groupId": {
 			"value": "sqlServer"
 		},
-		"s161d01-pep-adfwip-sql-odp_properties_fqdns": {
+		"devt-pep-adfwip-sql-odp_properties_fqdns": {
 			"value": [
-				"s161d01-sql-odp.database.windows.net"
+				"devt-sql-odp.database.windows.net"
 			]
 		},
-		"s161d01-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
-			"value": "/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourceGroups/s161d01-rg-SLD/providers/Microsoft.Sql/servers/s161d01-sql-sld"
+		"devt-pep-adfwip-sql-sld_properties_privateLinkResourceId": {
+			"value": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/devt-rg-SLD/providers/Microsoft.Sql/servers/devt-sql-sld"
 		},
-		"s161d01-pep-adfwip-sql-sld_properties_groupId": {
+		"devt-pep-adfwip-sql-sld_properties_groupId": {
 			"value": "sqlServer"
 		},
-		"s161d01-pep-adfwip-sql-sld_properties_fqdns": {
+		"devt-pep-adfwip-sql-sld_properties_fqdns": {
 			"value": [
-				"s161d01-sql-sld.database.windows.net"
+				"devt-sql-sld.database.windows.net"
 			]
 		}
 	}

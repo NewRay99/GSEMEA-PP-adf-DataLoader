@@ -1,10 +1,10 @@
 {
-	"name": "s161d01-adf-platform",
+	"name": "adf-devt-gsemeapp",
 	"location": "westeurope",
 	"identity": {
 		"type": "UserAssigned",
 		"userAssignedIdentities": {
-			"/subscriptions/81703de1-ec12-47e5-91f8-ef521199196e/resourcegroups/s161d01-rg-ODP/providers/Microsoft.ManagedIdentity/userAssignedIdentities/s161d01-uami-adf-platform": {
+			"/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourcegroups/rg-devt-gsemeapp/providers/Microsoft.ManagedIdentity/userAssignedIdentities/devt-uami-adf-platform": {
 			}
 		}
 	},
@@ -12,7 +12,7 @@
 		"globalParameters": {
 			"subscriptionId": {
 				"type": "string",
-				"value": "81703de1-ec12-47e5-91f8-ef521199196e"
+				"value": "abc596af-81dc-4cac-87d1-d89cd6c6e10e"
 			}
 		}
 	}
