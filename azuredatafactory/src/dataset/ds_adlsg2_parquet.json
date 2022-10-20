@@ -1,0 +1,37 @@
+{
+	"name": "ds_adlsg2_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_mi_adlsg2_01",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"ds_file_path_file": {
+				"type": "string"
+			},
+			"ds_file_path_directory": {
+				"type": "string",
+				"defaultValue": "spo/bm"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().ds_file_path_file",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().ds_file_path_directory",
+					"type": "Expression"
+				},
+				"fileSystem": "root"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

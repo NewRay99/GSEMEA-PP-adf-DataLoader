@@ -1,0 +1,74 @@
+{
+	"name": "zz_spobm_parquet_CustomerFeedbackForms",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy Data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"dataIntegrationUnits": 32
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_spo_list",
+						"type": "DatasetReference",
+						"parameters": {
+							"spo_list": "CustomerFeedbackForms",
+							"spo_appId": "0faecc31-203e-4418-9d87-f7f124b82f42",
+							"spo_url": "https://kbrcorpuk.sharepoint.com/sites/gs-cap/BM/"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adlsg2_parquet",
+						"type": "DatasetReference",
+						"parameters": {
+							"ds_file_path_file": "CustomerFeedbackForms.parquet",
+							"ds_file_path_directory": "spo/bm/"
+						}
+					}
+				]
+			}
+		],
+		"variables": {
+			"skipStep": {
+				"type": "String",
+				"defaultValue": "0"
+			}
+		},
+		"folder": {
+			"name": "Copy"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-09-21T14:43:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

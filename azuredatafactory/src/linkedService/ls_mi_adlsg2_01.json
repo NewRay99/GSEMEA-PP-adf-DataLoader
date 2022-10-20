@@ -1,0 +1,15 @@
+{
+	"name": "ls_mi_adlsg2_01",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://storagedevtgsemeapp.dfs.core.windows.net/"
+		},
+		"connectVia": {
+			"referenceName": "adfazuresqlruntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

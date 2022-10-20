@@ -1,0 +1,10 @@
+{
+	"name": "AzureSqlDatabase333",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/abc596af-81dc-4cac-87d1-d89cd6c6e10e/resourceGroups/rg-devt-gsemeapp/providers/Microsoft.Sql/servers/sqlsrv-devt-sqlgsemeapp",
+		"groupId": "sqlServer",
+		"fqdns": [
+			"sqlsrv-devt-sqlgsemeapp.database.windows.net"
+		]
+	}
+}

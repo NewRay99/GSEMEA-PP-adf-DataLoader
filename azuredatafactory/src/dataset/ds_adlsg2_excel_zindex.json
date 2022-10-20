@@ -1,0 +1,44 @@
+{
+	"name": "ds_adlsg2_excel_zindex",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_mi_adlsg2_01",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"ds_file_path_file": {
+				"type": "String",
+				"defaultValue": "security_mapping_cp.xlsx"
+			},
+			"ds_file_sheet_index": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"ds_file_has_headers": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"ds_file_path_directory": {
+				"type": "string",
+				"defaultValue": "ReferenceData"
+			}
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().ds_file_path_file",
+					"type": "Expression"
+				},
+				"folderPath": "ReferenceData",
+				"fileSystem": "root"
+			},
+			"sheetIndex": 0,
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,39 @@
+{
+	"name": "ds_spo_list",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_spo_01",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"spo_url": {
+					"value": "@dataset().spo_url",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"spo_list": {
+				"type": "string",
+				"defaultValue": "ChangeRegister"
+			},
+			"spo_appId": {
+				"type": "string",
+				"defaultValue": "0faecc31-203e-4418-9d87-f7f124b82f42"
+			},
+			"spo_url": {
+				"type": "string",
+				"defaultValue": "https://kbrcorpuk.sharepoint.com/sites/gs-cap/BM/"
+			}
+		},
+		"annotations": [],
+		"type": "SharePointOnlineListResource",
+		"schema": [],
+		"typeProperties": {
+			"listName": {
+				"value": "@dataset().spo_list",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

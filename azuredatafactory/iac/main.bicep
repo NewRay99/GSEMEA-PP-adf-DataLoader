@@ -41,7 +41,7 @@ var deploymentSettings = {
     subNet: 'devt-core-sn-02'
     opsRG: 'devt-rg-ops-core'
     coreDSKVName: 'devt-core-kv-01'
-    dataFactoryName: 'devt-adf-platform'
+    dataFactoryName: 'adf-devt-gsemeapp'
     userAssignedIdentities: 'devt-uami-adf-platform'
   }
   Test: {

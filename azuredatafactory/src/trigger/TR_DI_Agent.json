@@ -7,7 +7,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "PL_Agent",
+					"referenceName": "PL_Master",
 					"type": "PipelineReference"
 				}
 			}
