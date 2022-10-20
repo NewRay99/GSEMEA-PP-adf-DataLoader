@@ -1,5 +1,5 @@
 type,name,path,value
-linkedService,LS_KV_prodkv01,typeProperties.baseUrl,"https://devt-core-kv-01.vault.azure.net/"
+linkedService,ls_kv_dw,typeProperties.baseUrl,"https://devt-core-kv-01.vault.azure.net/"
 linkedService,LS_SQLDB_ConfigDB,typeProperties.connectionString.secretName,"scrt-sqldb-devconfigdb"
 linkedService,LS_SQLDB_ConfigDB,typeProperties.servicePrincipalId,"b3ff6d16-a433-470e-913b-27527796c421"
 linkedService,LS_SQLDB_ConfigDB,typeProperties.servicePrincipalKey.secretName,"scrt-spn-DataImporter-UserPW"

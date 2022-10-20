@@ -55,7 +55,7 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().Base_URL}"
 		},
-		"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
+		"ls_kv_dw_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://devt-core-kv-01.vault.azure.net/"
 		},
@@ -152,8 +152,8 @@
 					"LS_HTTP_properties_typeProperties_url": {
 						"value": "[parameters('LS_HTTP_properties_typeProperties_url')]"
 					},
-					"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
-						"value": "[parameters('LS_KV_prodkv01_properties_typeProperties_baseUrl')]"
+					"ls_kv_dw_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_kv_dw_properties_typeProperties_baseUrl')]"
 					},
 					"LS_REST_API_properties_typeProperties_url": {
 						"value": "[parameters('LS_REST_API_properties_typeProperties_url')]"

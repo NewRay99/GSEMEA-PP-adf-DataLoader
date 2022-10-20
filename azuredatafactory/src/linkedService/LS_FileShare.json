@@ -21,7 +21,7 @@
 			"password": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
-					"referenceName": "LS_KV_prodkv01",
+					"referenceName": "ls_kv_dw",
 					"type": "LinkedServiceReference"
 				},
 				"secretName": {

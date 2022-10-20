@@ -41,7 +41,7 @@
 		"LS_HTTP_properties_typeProperties_url": {
 			"value": "@{linkedService().Base_URL}"
 		},
-		"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
+		"ls_kv_dw_properties_typeProperties_baseUrl": {
 			"value": "https://devt-core-kv-01.vault.azure.net/"
 		},
 		"LS_REST_API_properties_typeProperties_url": {

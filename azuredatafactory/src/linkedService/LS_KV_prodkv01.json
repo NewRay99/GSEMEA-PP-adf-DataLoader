@@ -1,5 +1,5 @@
 {
-	"name": "LS_KV_prodkv01",
+	"name": "ls_kv_dw",
 	"properties": {
 		"description": "Linked Service for the Data Services Key Vault",
 		"annotations": [],

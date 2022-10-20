@@ -20,7 +20,7 @@
         "LS_UAMI_PE_SQLDB_AzureSQL_connectionString": {
         "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=@{linkedService().LS_Server};Initial Catalog=@{linkedService().LS_Database}"
         },
-        "LS_KV_prodkv01_properties_typeProperties_baseUrl": {
+        "ls_kv_dw_properties_typeProperties_baseUrl": {
         "value": "https://stage-kv-ops.vault.azure.net/"
         },
         "dataFactory_properties_globalParameters_subscriptionId_value": {

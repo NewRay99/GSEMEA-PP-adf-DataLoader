@@ -55,7 +55,7 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().Base_URL}"
 		},
-		"LS_KV_prodkv01_properties_typeProperties_baseUrl": {
+		"ls_kv_dw_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://devt-core-kv-01.vault.azure.net/"
 		},
@@ -30184,7 +30184,7 @@
 					"servicePrincipalKey": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
-							"referenceName": "LS_KV_prodkv01",
+							"referenceName": "ls_kv_dw",
 							"type": "LinkedServiceReference"
 						},
 						"secretName": {
@@ -30196,7 +30196,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_KV_prodkv01')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_kv_dw')]"
 			]
 		},
 		{
@@ -30238,7 +30238,7 @@
 					"connectionString": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
-							"referenceName": "LS_KV_prodkv01",
+							"referenceName": "ls_kv_dw",
 							"type": "LinkedServiceReference"
 						},
 						"secretName": {
@@ -30250,7 +30250,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_KV_prodkv01')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_kv_dw')]"
 			]
 		},
 		{
@@ -30277,7 +30277,7 @@
 					"password": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
-							"referenceName": "LS_KV_prodkv01",
+							"referenceName": "ls_kv_dw",
 							"type": "LinkedServiceReference"
 						},
 						"secretName": {
@@ -30292,7 +30292,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_KV_prodkv01')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_kv_dw')]"
 			]
 		},
 		{
@@ -30316,7 +30316,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LS_KV_prodkv01')]",
+			"name": "[concat(parameters('factoryName'), '/ls_kv_dw')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -30324,7 +30324,7 @@
 				"annotations": [],
 				"type": "AzureKeyVault",
 				"typeProperties": {
-					"baseUrl": "[parameters('LS_KV_prodkv01_properties_typeProperties_baseUrl')]"
+					"baseUrl": "[parameters('ls_kv_dw_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -30375,7 +30375,7 @@
 					"connectionString": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
-							"referenceName": "LS_KV_prodkv01",
+							"referenceName": "ls_kv_dw",
 							"type": "LinkedServiceReference"
 						},
 						"secretName": {
@@ -30387,7 +30387,7 @@
 					"servicePrincipalKey": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
-							"referenceName": "LS_KV_prodkv01",
+							"referenceName": "ls_kv_dw",
 							"type": "LinkedServiceReference"
 						},
 						"secretName": {
@@ -30404,7 +30404,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_KV_prodkv01')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_kv_dw')]"
 			]
 		},
 		{
@@ -30449,7 +30449,7 @@
 					"connectionString": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
-							"referenceName": "LS_KV_prodkv01",
+							"referenceName": "ls_kv_dw",
 							"type": "LinkedServiceReference"
 						},
 						"secretName": {
@@ -30465,7 +30465,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_KV_prodkv01')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_kv_dw')]"
 			]
 		},
 		{
