@@ -181,7 +181,13 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "EX_SPO",
+						"activity": "pl_adb_process_Reference",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "EX_ADB_process_Spo",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -274,6 +280,13 @@
 							"Status": {
 								"type": "String",
 								"value": "Success"
+							},
+							"ExecutionInstanceId": {
+								"type": "Int32",
+								"value": {
+									"value": "@activity('LKP_InsertExecutionInstance').output.firstRow.ExecutionInstanceId",
+									"type": "Expression"
+								}
 							}
 						},
 						"queryTimeout": "02:00:00",
@@ -290,7 +303,43 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "EX_SPO",
+						"activity": "EX_ADB_process_Spo",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "pl_adb_process_Reference",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "EX_ADB_Process_Houston",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "EX_ADB_Process_London",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "EX_SPO_ADLSG2",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "EX_SPParquet_Stg_ADB",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "EX_REF_stg_ADB",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -383,6 +432,13 @@
 							"Status": {
 								"type": "String",
 								"value": "Failure"
+							},
+							"ExecutionInstanceId": {
+								"type": "Int32",
+								"value": {
+									"value": "@activity('LKP_InsertExecutionInstance').output.firstRow.ExecutionInstanceId",
+									"type": "Expression"
+								}
 							}
 						},
 						"queryTimeout": "02:00:00",
@@ -395,13 +451,13 @@
 				}
 			},
 			{
-				"name": "EX_SPO",
+				"name": "EX_SPO_ADLSG2",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LKP_InsertExecutionInstance",
+						"activity": "EX_ADB_Process_London",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
@@ -414,7 +470,11 @@
 					"waitOnCompletion": true,
 					"parameters": {
 						"ExecutionInstanceId": {
-							"value": "@activity('LKP_LogStart_Master').output.firstRow.ExecutionId",
+							"value": "@activity('LKP_InsertExecutionInstance').output.firstRow.ExecutionInstanceId",
+							"type": "Expression"
+						},
+						"ParentLogId": {
+							"value": "@activity('LKP_LogStart_Master').output.firstRow.LogId",
 							"type": "Expression"
 						}
 					}
@@ -445,16 +505,191 @@
 						"type": "Expression"
 					},
 					"connectVia": {
-						"referenceName": "AutoResolveIntegrationRuntime",
+						"referenceName": "adfazuresqlruntime",
 						"type": "IntegrationRuntimeReference"
 					},
 					"method": "POST",
 					"body": "{“message”:”Cancelling the pipeline”}",
 					"authentication": {
-						"resource": "https://management.azure.com",
-						"credential": {
-							"referenceName": "ls_cred_mi_adf",
-							"type": "CredentialReference"
+						"type": "MSI",
+						"resource": "https://management.azure.com"
+					}
+				}
+			},
+			{
+				"name": "EX_REF_stg_ADB",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "LKP_InsertExecutionInstance",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "EX_ADB_Process_London",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_reference_stgadb",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ExecutionInstanceId": {
+							"value": "@activity('LKP_InsertExecutionInstance').output.firstRow.ExecutionInstanceId",
+							"type": "Expression"
+						},
+						"ParentLogId": {
+							"value": "@activity('LKP_LogStart_Master').output.firstRow.LogId",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "EX_SPParquet_Stg_ADB",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "EX_SPO_ADLSG2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_parquet_stgadb_Spo",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ExecutionInstanceId": {
+							"value": "@activity('LKP_InsertExecutionInstance').output.firstRow.ExecutionInstanceId",
+							"type": "Expression"
+						},
+						"ParentLogId": {
+							"value": "@activity('LKP_LogStart_Master').output.firstRow.LogId",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "EX_ADB_Process_Houston",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "LKP_InsertExecutionInstance",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_adb_process_Houston",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ExecutionInstanceId": {
+							"value": "@activity('LKP_InsertExecutionInstance').output.firstRow.ExecutionInstanceId",
+							"type": "Expression"
+						},
+						"ParentLogId": {
+							"value": "@activity('LKP_LogStart_Master').output.firstRow.LogId",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "EX_ADB_Process_London",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "EX_ADB_Process_Houston",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_adb_process_London",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ExecutionInstanceId": {
+							"value": "@activity('LKP_InsertExecutionInstance').output.firstRow.ExecutionInstanceId",
+							"type": "Expression"
+						},
+						"ParentLogId": {
+							"value": "@activity('LKP_LogStart_Master').output.firstRow.LogId",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "EX_ADB_process_Spo",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "EX_SPParquet_Stg_ADB",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_adb_process_Spo",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ParentLogId": {
+							"value": "@activity('LKP_LogStart_Master').output.firstRow.LogId",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "pl_adb_process_Reference",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "EX_REF_stg_ADB",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_adb_process_Reference",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ParentLogId": {
+							"value": "@activity('LKP_LogStart_Master').output.firstRow.LogId",
+							"type": "Expression"
 						}
 					}
 				}
